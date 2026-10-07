@@ -1,4 +1,4 @@
-env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -15,7 +15,11 @@ env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
     main { width: min(100%, 430px); }
     .card { padding: 30px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 14px 45px #20272312; }
     [hidden] { display: none !important; }
-    .brand { display: block; width: 190px; max-width: 100%; height: auto; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; margin: 0 0 24px; }
+    .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, #d49b00, #f3b41b); color: #1e2328; font-size: 11px; font-weight: 800; letter-spacing: .06em; }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-copy strong { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    .brand-copy small { color: var(--muted); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
     .eyebrow { margin: 0 0 5px; color: #805d00; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     h1 { margin: 0; font: 600 27px/1.2 var(--font-display); }
     .intro { margin: 8px 0 22px; color: var(--muted); font-size: 12px; }
@@ -38,10 +42,13 @@ env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
 <body>
   <main>
     <section class="card" aria-labelledby="sign-in-title">
-      <img class="brand" src="assets/kb-logo.png" alt="K&amp;B (Kitchens &amp; Bathrooms) London Limited">
+      <div class="brand" aria-label="K&amp;B (Kitchens &amp; Bathrooms) London Limited">
+        <span class="brand-mark" aria-hidden="true">K&amp;B</span>
+        <span class="brand-copy"><strong>K&amp;B</strong><small>London</small></span>
+      </div>
       <p class="eyebrow">Project portal</p>
       <h1 id="sign-in-title">Sign in</h1>
-      <p class="intro" id="sign-in-intro">Choose your account type to test the matching sign-in.</p>
+      <p class="intro" id="sign-in-intro">Choose your account type, then sign in with your invited account.</p>
       <div class="login-options" id="login-options" aria-label="Choose login type">
         <button class="login-option" type="button" data-role="staff" aria-pressed="false">Staff login</button>
         <button class="login-option" type="button" data-role="client" aria-pressed="false">Customer login</button>
@@ -60,7 +67,7 @@ env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
         <button type="submit">Save new password</button>
       </form>
       <p class="message" id="auth-message" role="status" aria-live="polite"></p>
-      <p class="notice"><strong>Test login only:</strong> choose Staff or Customer and sign in with a matching Supabase test account. This checks authentication and account role; the demo pages are not protected for production use.</p>
+      <p class="notice">Accounts are invitation-only. Staff access is controlled by your assigned role; customer accounts can see only the project assigned to them.</p>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
@@ -110,11 +117,11 @@ env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
         window.location.replace(`${routeBase}staff.html`);
         return;
       }
-      if (profile.role === 'client' && profile.project_id === '09') {
+      if (profile.role === 'client' && profile.project_id) {
         window.location.replace(`${routeBase}index.html?project=${encodeURIComponent(profile.project_id)}`);
         return;
       }
-      await rejectSignedInAccount('This account is not assigned to the demo project currently available in the portal. Please contact the project team.');
+      await rejectSignedInAccount('This account has no project assignment. Please contact the project team.');
     }
 
     loginOptions.addEventListener('click', async (event) => {
@@ -126,7 +133,7 @@ env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
       });
       signInForm.hidden = false;
       resetPasswordButton.hidden = false;
-      signInIntro.textContent = `Enter the email and password for your ${selectedRole === 'staff' ? 'staff' : 'customer'} test account.`;
+      signInIntro.textContent = `Enter the email and password for your invited ${selectedRole === 'staff' ? 'staff' : 'customer'} account.`;
       showMessage('');
       const { data, error } = await supabaseClient.auth.getSession();
       if (error) {
@@ -202,7 +209,7 @@ env -u GITHUB_TOKEN gh auth login --hostname github.com --web<!doctype html>
         resetPasswordButton.hidden = false;
         document.querySelector('#sign-in-title').textContent = 'Sign in';
         loginOptions.hidden = false;
-        signInIntro.textContent = 'Choose your account type to test the matching sign-in.';
+        signInIntro.textContent = 'Choose your account type, then sign in with your invited account.';
         showMessage('Password updated. Sign in with your new password.', 'success');
       } catch (error) {
         showMessage(error.message || 'Could not update your password.', 'error');

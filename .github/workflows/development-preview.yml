@@ -1,4 +1,4 @@
-name: Deploy development previews
+name: Publish paused development preview
 
 on:
   workflow_dispatch:
@@ -25,13 +25,10 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Assemble client and staff previews
+      - name: Assemble privacy-safe placeholder
         run: |
           mkdir -p _site/development
-          cp index.html staff.html login.html development/projects.js _site/development/
-          cp -R assets _site/development/
-          mkdir -p _site/development/supabase
-          cp supabase/config.js _site/development/supabase/
+          cp development/preview-paused.html _site/development/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

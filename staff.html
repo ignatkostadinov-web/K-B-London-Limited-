@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#2c3238">
+  <style>[data-private-page] { visibility: hidden; }</style>
   <title>Project register | K&amp;B (Kitchens &amp; Bathrooms) London Limited</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +35,10 @@
     .shell { min-height: 100vh; display: grid; grid-template-columns: 220px minmax(0, 1fr); }
     .rail { display: flex; flex-direction: column; padding: 25px 17px 18px; border-right: 1px solid #3a4249; background: var(--slate); color: #fff; }
     .brand { display: flex; align-items: center; gap: 10px; padding: 0 7px 29px; }
-    .brand-logo { display: block; width: 100%; max-width: 180px; height: auto; }
+    .brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #d49b00, #f3b41b); color: var(--slate-dark); font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-copy strong { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    .brand-copy small { color: #b9c1c6; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
     .rail-label { margin: 0 9px 9px; color: #aab2b8; font-size: 9px; font-weight: 700; text-transform: uppercase; }
     .rail-link { display: flex; align-items: center; gap: 11px; min-height: 39px; padding: 0 10px; border-radius: 5px; color: var(--slate-dark); background: var(--gold); font-size: 12px; font-weight: 700; }
     .rail-icon { width: 16px; text-align: center; }
@@ -247,18 +251,20 @@
     }
   </style>
 </head>
-<body>
+<body data-private-page>
   <div class="shell">
     <aside class="rail" aria-label="Staff navigation">
-      <div class="brand"><img class="brand-logo" src="assets/kb-logo.png" alt="K&amp;B (Kitchens &amp; Bathrooms) London Limited logo"></div>
+      <div class="brand" aria-label="K&amp;B (Kitchens &amp; Bathrooms) London Limited">
+        <span class="brand-mark" aria-hidden="true">K&amp;B</span>
+        <span class="brand-copy"><strong>K&amp;B</strong><small>London</small></span>
+      </div>
       <div><p class="rail-label">Workspace</p><div class="rail-link" aria-current="page"><span class="rail-icon" aria-hidden="true">▦</span>Project register</div></div>
       <div class="rail-note"><strong>Internal project data</strong>Client names and work details are shown here for staff reference.</div>
       <div class="staff-user"><span class="staff-avatar" aria-hidden="true">KB</span><span><strong>Staff workspace</strong><small>Project team</small></span></div>
     </aside>
     <main>
-      <header class="topbar"><div class="breadcrumb">Workspace <span aria-hidden="true">/</span> Project register</div><span class="internal-badge"><span aria-hidden="true"></span>Staff view</span></header>
+      <header class="topbar"><div class="breadcrumb">Workspace <span aria-hidden="true">/</span> Project register</div><div><span class="internal-badge"><span aria-hidden="true"></span>Staff view</span> <button class="project-open" id="portal-sign-out" type="button">Sign out</button></div></header>
       <div class="content">
-        <p class="development-banner" id="development-banner" hidden><strong>Staff development preview:</strong> Jane Hill’s sample project only. No sign-in, server storage or access controls; changes stay in this browser and are not sent to a client.</p>
         <section class="brand-intro" aria-labelledby="brand-intro-title">
           <div class="brand-intro-copy">
             <p class="brand-kicker">K&amp;B (Kitchens &amp; Bathrooms) London Limited</p>
@@ -272,23 +278,23 @@
           </div>
         </section>
 
-        <section class="page-head" aria-labelledby="page-title"><div><p class="eyebrow">K&amp;B (Kitchens &amp; Bathrooms) London Limited · Operations</p><h2 id="page-title">Master project register</h2><p class="subtitle">A current view of every listed residential project.</p></div><span class="updated" id="register-summary">9 projects in register</span></section>
+        <section class="page-head" aria-labelledby="page-title"><div><p class="eyebrow">K&amp;B (Kitchens &amp; Bathrooms) London Limited · Operations</p><h2 id="page-title">Master project register</h2><p class="subtitle">A current view of every listed residential project.</p></div><span class="updated" id="register-summary">0 projects in register</span></section>
 
         <section class="metrics" aria-label="Project totals">
-          <div class="metric"><span class="metric-mark" aria-hidden="true">▦</span><div><span class="metric-label">All projects</span><strong class="metric-value">9</strong></div></div>
-          <div class="metric"><span class="metric-mark" aria-hidden="true">✓</span><div><span class="metric-label">Completed</span><strong class="metric-value">7</strong></div></div>
-          <div class="metric"><span class="metric-mark" aria-hidden="true">◷</span><div><span class="metric-label">Finishing stages</span><strong class="metric-value">1</strong></div></div>
-          <div class="metric"><span class="metric-mark" aria-hidden="true">↗</span><div><span class="metric-label">In progress</span><strong class="metric-value">1</strong></div></div>
+          <div class="metric"><span class="metric-mark" aria-hidden="true">▦</span><div><span class="metric-label">All projects</span><strong class="metric-value">0</strong></div></div>
+          <div class="metric"><span class="metric-mark" aria-hidden="true">✓</span><div><span class="metric-label">Completed</span><strong class="metric-value">0</strong></div></div>
+          <div class="metric"><span class="metric-mark" aria-hidden="true">◷</span><div><span class="metric-label">Finishing stages</span><strong class="metric-value">0</strong></div></div>
+          <div class="metric"><span class="metric-mark" aria-hidden="true">↗</span><div><span class="metric-label">In progress</span><strong class="metric-value">0</strong></div></div>
         </section>
 
         <section class="register" aria-labelledby="register-title">
-          <div class="register-head"><div><h2 id="register-title">All projects</h2><span class="record-count" id="record-count" aria-live="polite">Showing 9 projects</span></div></div>
+          <div class="register-head"><div><h2 id="register-title">All projects</h2><span class="record-count" id="record-count" aria-live="polite">Showing 0 projects</span></div></div>
           <div class="toolbar">
             <div class="filters" role="group" aria-label="Filter projects by status">
-              <button class="filter" type="button" data-filter="all" aria-pressed="true">All<span class="filter-count">9</span></button>
-              <button class="filter" type="button" data-filter="progress" aria-pressed="false">In progress<span class="filter-count">1</span></button>
-              <button class="filter" type="button" data-filter="finishing" aria-pressed="false">Finishing<span class="filter-count">1</span></button>
-              <button class="filter" type="button" data-filter="completed" aria-pressed="false">Completed<span class="filter-count">7</span></button>
+              <button class="filter" type="button" data-filter="all" aria-pressed="true">All<span class="filter-count">0</span></button>
+              <button class="filter" type="button" data-filter="progress" aria-pressed="false">In progress<span class="filter-count">0</span></button>
+              <button class="filter" type="button" data-filter="finishing" aria-pressed="false">Finishing<span class="filter-count">0</span></button>
+              <button class="filter" type="button" data-filter="completed" aria-pressed="false">Completed<span class="filter-count">0</span></button>
             </div>
             <label class="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="project-search" type="search" placeholder="Search client, project or reference" autocomplete="off" aria-label="Search projects"></label>
           </div>
@@ -298,19 +304,28 @@
               <tbody id="project-rows"></tbody>
             </table>
           </div>
-          <div class="empty-state" id="empty-state">No projects match your search.</div>
+          <div class="empty-state" id="empty-state">No projects are available yet.</div>
         </section>
-        <p class="footer-note">This demo shares project updates between the staff and client views in the same browser. It has no central server, sign-in or role-based access; do not use it to store confidential production records.</p>
+        <p class="footer-note">Project data and access are managed by Supabase. Customer access is restricted to the assigned project.</p>
       </div>
     </main>
   </div>
   <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title">
     <div class="dialog-layout">
       <header class="dialog-heading"><div><p class="eyebrow">Project workspace</p><h2 id="project-dialog-title">Client project</h2><p id="project-dialog-reference"></p></div><button class="dialog-close" type="button" aria-label="Close project details">×</button></header>
-      <div class="project-status-edit"><label for="project-status-select">Overall project status</label><select id="project-status-select"><option value="progress">In Progress</option><option value="finishing">In Finishing Stages</option><option value="completed">Completed</option></select><button class="save-stage" id="save-project-status" type="button">Save status</button><span class="storage-note">Updates and photos save in this browser</span></div>
+      <div class="project-status-edit"><label for="project-status-select">Overall project status</label><select id="project-status-select"><option value="progress">In Progress</option><option value="finishing">In Finishing Stages</option><option value="completed">Completed</option></select><button class="save-stage" id="save-project-status" type="button">Save status</button><span class="storage-note">Changes are saved to the secure project database</span></div>
+      <section class="decision-workspace" aria-labelledby="project-files-title">
+        <div class="decision-workspace-head"><div><h3 id="project-files-title">Project documents</h3><p>Files are private unless you explicitly share them with this project's customer.</p></div></div>
+        <label for="project-file-category">File type</label>
+        <select id="project-file-category"><option value="design-document">Design document</option><option value="project-document">Other project document</option></select>
+        <label><input id="project-file-share" type="checkbox"> Share uploaded documents with this customer</label>
+        <label for="project-file-upload">Upload documents</label>
+        <input id="project-file-upload" type="file" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx">
+        <div id="project-document-list" aria-live="polite"></div>
+      </section>
       <div class="stage-list" id="stage-list"></div>
       <section class="decision-workspace" aria-labelledby="decision-workspace-title">
-        <div class="decision-workspace-head"><div><h3 id="decision-workspace-title">Client decisions &amp; approvals</h3><p>Share the proposed choice and impacts; the client's response is recorded in this browser.</p></div><button class="issue-new-button" id="new-decision-button" type="button">＋ Add decision</button></div>
+        <div class="decision-workspace-head"><div><h3 id="decision-workspace-title">Client decisions &amp; approvals</h3><p>Share the proposed choice and impacts; the customer's response is recorded securely.</p></div><button class="issue-new-button" id="new-decision-button" type="button">＋ Add decision</button></div>
         <div class="decision-list-staff" id="decision-list-staff" aria-live="polite"></div>
         <form class="decision-form" id="decision-form" hidden>
           <h4 id="decision-form-title">Create client decision</h4>
@@ -336,7 +351,7 @@
           <p class="issue-private-note">The correspondence and solution notes stay internal unless you explicitly share the client update below.</p>
           <div class="issue-field">
             <label for="issue-title">Issue or change</label>
-            <input id="issue-title" name="title" required maxlength="160" placeholder="e.g. Flooring change — Jane Hill">
+            <input id="issue-title" name="title" required maxlength="160" placeholder="e.g. Flooring finish change">
           </div>
           <div class="issue-field">
             <label for="issue-status">Status</label>
@@ -383,684 +398,10 @@
     </div>
   </dialog>
   <div class="dialog-toast" id="dialog-toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+  <script src="supabase/config.js"></script>
+  <script src="supabase/portal.js"></script>
   <script src="projects.js"></script>
-  <script>
-    const projectTable = document.querySelector('#project-rows');
-    const rows = window.portalProjects.map((project) => {
-      const row = document.createElement('tr');
-      row.dataset.projectId = project.id;
-      row.dataset.status = project.status;
-
-      const clientCell = document.createElement('td');
-      const clientName = createElement('span', 'client-name', project.client);
-      const referenceNumber = createElement('span', 'ref-number', `Ref #${project.id}`);
-      clientCell.append(clientName, referenceNumber);
-      row.append(clientCell);
-
-      const typeCell = createElement('td', 'project-type', project.title);
-      const identifierCell = createElement('td', 'identifiers', project.reference);
-      const statusCell = document.createElement('td');
-      const statusBadge = createElement('span', `status ${project.status}`, statusLabel(project.status));
-      statusCell.append(statusBadge);
-      const noteCell = createElement('td', 'notes', project.note);
-      row.append(typeCell, identifierCell, statusCell, noteCell);
-      projectTable.append(row);
-      return row;
-    });
-    const filters = [...document.querySelectorAll('.filter')];
-    const searchInput = document.querySelector('#project-search');
-    const recordCount = document.querySelector('#record-count');
-    const emptyState = document.querySelector('#empty-state');
-    const projectDialog = document.querySelector('#project-dialog');
-    const stageList = document.querySelector('#stage-list');
-    const issueList = document.querySelector('#issue-list');
-    const issueForm = document.querySelector('#issue-form');
-    const decisionList = document.querySelector('#decision-list-staff');
-    const decisionForm = document.querySelector('#decision-form');
-    const projectStatusSelect = document.querySelector('#project-status-select');
-    const toast = document.querySelector('#dialog-toast');
-    const databaseName = 'kb-staff-portal';
-    let activeFilter = 'all';
-    let activeRow;
-    let toastTimer;
-    let databasePromise;
-    let editingIssueId = null;
-    let editingDecisionId = null;
-    let issueAttachment = null;
-    let issueAttachmentUrl = null;
-    const photoObjectUrls = new Set();
-    if (window.portalDevelopmentPreview) {
-      document.querySelector('#development-banner').hidden = false;
-      document.querySelector('#register-summary').textContent = `${window.portalProjects.length} demo project`;
-      document.querySelector('#page-title').textContent = 'Development project register';
-    }
-    const janeStageDefaults = {
-      '09-1': { status: 'complete', note: 'Pre-start site condition captured before work began, with the original bathroom left intact. We then stripped out the room and prepared the area for the next phase.', updatedAt: '2026-10-05T15:00:00Z' },
-      '09-2': { status: 'in-progress', note: 'Subfloor preparation and structural adjustments are in progress.', updatedAt: '2026-10-06T16:23:00Z' },
-      '09-3': { status: 'in-progress', note: 'First-fix plumbing and electrical work is in progress.', updatedAt: '2026-10-06T16:23:00Z' },
-      '09-4': { status: 'complete', note: 'Wall boarding and plastering are complete. Two progress photos have been added to this stage.', updatedAt: '2026-10-06T16:23:00Z' }
-    };
-    const bundledStagePhotos = {
-      '09-4': [
-        { src: 'assets/jane-phase-4-plastering-1.png', name: 'Plastering completed · View 1' },
-        { src: 'assets/jane-phase-4-plastering-2.png', name: 'Plastering completed · View 2' }
-      ]
-    };
-
-    function openDatabase() {
-      if (!databasePromise) {
-        databasePromise = new Promise((resolve, reject) => {
-          const request = indexedDB.open(databaseName, 4);
-          request.onupgradeneeded = () => {
-            const database = request.result;
-            if (!database.objectStoreNames.contains('projectStatus')) database.createObjectStore('projectStatus', { keyPath: 'projectId' });
-            if (!database.objectStoreNames.contains('stageUpdates')) database.createObjectStore('stageUpdates', { keyPath: 'id' });
-            if (!database.objectStoreNames.contains('stagePhotos')) database.createObjectStore('stagePhotos', { keyPath: 'id' });
-            if (!database.objectStoreNames.contains('projectIssues')) database.createObjectStore('projectIssues', { keyPath: 'id' });
-            if (!database.objectStoreNames.contains('projectDecisions')) database.createObjectStore('projectDecisions', { keyPath: 'id' });
-          };
-          request.onsuccess = () => {
-            const database = request.result;
-            database.onversionchange = () => {
-              database.close();
-              databasePromise = null;
-            };
-            resolve(database);
-          };
-          request.onblocked = () => notify('Close other open project portal tabs to finish updating saved project data.');
-          request.onerror = () => reject(request.error);
-        });
-      }
-      return databasePromise;
-    }
-
-    async function readRecords(storeName) {
-      const database = await openDatabase();
-      return new Promise((resolve, reject) => {
-        const request = database.transaction(storeName, 'readonly').objectStore(storeName).getAll();
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    async function writeRecord(storeName, record) {
-      const database = await openDatabase();
-      return new Promise((resolve, reject) => {
-        const transaction = database.transaction(storeName, 'readwrite');
-        transaction.objectStore(storeName).put(record);
-        transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
-        transaction.onabort = () => reject(transaction.error);
-      });
-    }
-
-    async function removeRecord(storeName, recordId) {
-      const database = await openDatabase();
-      return new Promise((resolve, reject) => {
-        const transaction = database.transaction(storeName, 'readwrite');
-        transaction.objectStore(storeName).delete(recordId);
-        transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
-        transaction.onabort = () => reject(transaction.error);
-      });
-    }
-
-    function notify(message) {
-      toast.textContent = message;
-      toast.classList.add('visible');
-      window.clearTimeout(toastTimer);
-      toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 2600);
-    }
-
-    function statusLabel(status) {
-      return { progress: 'In Progress', finishing: 'In Finishing Stages', completed: 'Completed' }[status];
-    }
-
-    function issueStatusLabel(status) {
-      return { open: 'Open', 'awaiting-supplier': 'Awaiting supplier', 'in-progress': 'Action in progress', resolved: 'Resolved' }[status] || 'Open';
-    }
-
-    async function seedJaneFlooringIssue(projectId) {
-      if (projectId !== '09') return;
-      const issues = await readRecords('projectIssues');
-      const seededId = 'jane-flooring-change-2026-10-06';
-      const existing = issues.find((issue) => issue.id === seededId);
-      const correspondenceEntry = 'Supplier correspondence (6 October 2026, 17:31): the supplier said the selected flooring can be ordered in-store and is usually available for next-day delivery, potentially Thursday, subject to the order being placed. The supplier will ask customer service to arrange collection of the unused Lava Bone tiles; a refund can be processed after returned stock reaches its warehouse. The collection date is still pending. Ignat asked whether the order can be arranged by phone or requires a store visit, and offered availability after 18:30 the following day or on Thursday. No order, delivery, collection, or refund is confirmed yet. Quantity needs clarification: Jane reported 27 packs on site, while the supplier described collection of 8 tiles.';
-      if (existing?.communication?.includes(correspondenceEntry)) return;
-      const now = '2026-10-06T16:31:00.000Z';
-      await writeRecord('projectIssues', {
-        ...existing,
-        id: seededId,
-        projectId,
-        title: existing?.title || 'Bathroom floor finish change',
-        status: 'awaiting-supplier',
-        problem: existing?.problem || 'The exposed floor structure is not suitable for the originally planned rigid floor tiles. Jane selected a more flexible alternative. Supplier ordering, return quantity, and collection arrangements are being confirmed.',
-        plan: 'Confirm whether the flooring order can be placed by phone or requires an in-store visit, then confirm the order and delivery date. Follow up with customer service for the unused-tile collection date and clarify the quantity: 27 packs were reported on site, while the supplier referred to 8 tiles. Confirm the refund after returned stock reaches the warehouse, and update the design before installation.',
-        communication: [existing?.communication?.trim(), correspondenceEntry].filter(Boolean).join('\n\n'),
-        clientUpdate: 'The supplier has advised that the selected flooring can be ordered in-store and may be available for next-day delivery, potentially Thursday, once the order is placed. They are arranging collection of the unused original tiles, with a refund after the tiles reach their warehouse. We are confirming how to place the order and the collection date. The order, delivery, collection and refund are not yet confirmed.',
-        shareWithClient: true,
-        createdAt: existing?.createdAt || now,
-        updatedAt: now
-      });
-    }
-
-    async function seedJaneFlooringDecision(projectId) {
-      if (projectId !== '09') return;
-      const decisions = await readRecords('projectDecisions');
-      const seededId = 'jane-floor-finish-2026-10-06';
-      if (decisions.some((decision) => decision.id === seededId)) return;
-      const now = new Date().toISOString();
-      await writeRecord('projectDecisions', {
-        id: seededId,
-        projectId,
-        title: 'Bathroom floor finish',
-        option: 'Novocore Light Brown Oak LVF with integrated underlay · Wickes product 323583',
-        costImpact: 'Final cost impact to be confirmed after the supplier confirms the required pack quantity.',
-        scheduleImpact: 'Availability and delivery timing are being confirmed with the supplier.',
-        clientNote: 'Your selected flooring has been recorded. We are confirming stock, the required quantity, and arrangements for the unused original tile packs.',
-        status: 'approved',
-        shareWithClient: true,
-        createdAt: now,
-        updatedAt: now
-      });
-    }
-
-    function clearIssueForm() {
-      if (issueAttachmentUrl) URL.revokeObjectURL(issueAttachmentUrl);
-      issueAttachmentUrl = null;
-      editingIssueId = null;
-      issueAttachment = null;
-      issueForm.reset();
-      document.querySelector('#issue-form-title').textContent = 'Record project issue or change';
-      document.querySelector('#issue-attachment-name').textContent = 'Optional attachment · EML, TXT, PDF, or MSG · up to 15 MB';
-      document.querySelector('#issue-attachment-download').hidden = true;
-      issueForm.hidden = true;
-    }
-
-    function editIssue(issue) {
-      if (issueAttachmentUrl) URL.revokeObjectURL(issueAttachmentUrl);
-      issueAttachmentUrl = null;
-      editingIssueId = issue.id;
-      issueAttachment = issue.attachment || null;
-      document.querySelector('#issue-form-title').textContent = 'Update issue / change record';
-      document.querySelector('#issue-title').value = issue.title || '';
-      document.querySelector('#issue-status').value = issue.status || 'open';
-      document.querySelector('#issue-problem').value = issue.problem || '';
-      document.querySelector('#issue-plan').value = issue.plan || '';
-      document.querySelector('#issue-communication').value = issue.communication || '';
-      document.querySelector('#issue-client-update').value = issue.clientUpdate || '';
-      document.querySelector('#issue-share-with-client').checked = Boolean(issue.shareWithClient);
-      document.querySelector('#issue-attachment-name').textContent = issueAttachment
-        ? `Attached: ${issueAttachment.name}`
-        : 'Optional attachment · EML, TXT, PDF, or MSG · up to 15 MB';
-      const attachmentDownload = document.querySelector('#issue-attachment-download');
-      attachmentDownload.hidden = !issueAttachment;
-      if (issueAttachment) {
-        issueAttachmentUrl = URL.createObjectURL(issueAttachment.blob);
-        attachmentDownload.href = issueAttachmentUrl;
-        attachmentDownload.download = issueAttachment.name;
-      }
-      issueForm.hidden = false;
-      issueForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    async function renderIssueList(projectId) {
-      const issues = (await readRecords('projectIssues'))
-        .filter((issue) => issue.projectId === projectId)
-        .sort((first, second) => (second.updatedAt || '').localeCompare(first.updatedAt || ''));
-      issueList.replaceChildren();
-      if (!issues.length) {
-        issueList.append(createElement('p', 'issue-private-note', 'No issues or changes have been recorded for this project.'));
-        return;
-      }
-      issues.forEach((issue) => {
-        const card = createElement('article', 'issue-card');
-        const summary = document.createElement('div');
-        summary.append(createElement('h4', '', issue.title));
-        summary.append(createElement('p', '', issue.plan || issue.problem));
-        const meta = createElement('div', 'issue-card-meta');
-        meta.append(createElement('span', `issue-status${issue.status === 'resolved' ? ' resolved' : ''}`, issueStatusLabel(issue.status)));
-        const edit = createElement('button', 'issue-edit-button', 'Edit record');
-        edit.type = 'button';
-        edit.addEventListener('click', () => editIssue(issue));
-        meta.append(edit);
-        card.append(summary, meta);
-        if (issue.shareWithClient && issue.clientUpdate) {
-          card.append(createElement('p', 'issue-shared', 'Client-safe update is shared in the portal.'));
-        }
-        if (issue.communication) {
-          const correspondence = document.createElement('details');
-          correspondence.className = 'issue-communication';
-          const correspondenceLabel = document.createElement('summary');
-          correspondenceLabel.textContent = 'View correspondence record';
-          const correspondenceText = createElement('p', '', issue.communication);
-          correspondence.append(correspondenceLabel, correspondenceText);
-          card.append(correspondence);
-        }
-        issueList.append(card);
-      });
-    }
-
-    function decisionStatusLabel(status) {
-      return { 'awaiting-response': 'Awaiting client', approved: 'Approved / confirmed', 'discussion-requested': 'Discussion requested' }[status] || 'Awaiting client';
-    }
-
-    function clearDecisionForm() {
-      editingDecisionId = null;
-      decisionForm.reset();
-      decisionForm.hidden = true;
-      document.querySelector('#decision-form-title').textContent = 'Create client decision';
-    }
-
-    async function renderDecisionList(projectId) {
-      const decisions = (await readRecords('projectDecisions'))
-        .filter((decision) => decision.projectId === projectId)
-        .sort((first, second) => (second.updatedAt || '').localeCompare(first.updatedAt || ''));
-      decisionList.replaceChildren();
-      if (!decisions.length) {
-        decisionList.append(createElement('p', 'issue-private-note', 'No client decisions have been recorded.'));
-        return;
-      }
-      decisions.forEach((decision) => {
-        const card = createElement('article', 'decision-card-staff');
-        const details = document.createElement('div');
-        details.append(createElement('h4', '', decision.title));
-        details.append(createElement('p', '', `${decisionStatusLabel(decision.status)}${decision.shareWithClient ? ' · Visible to client' : ' · Internal draft'}`));
-        const edit = createElement('button', 'issue-edit-button', 'Edit');
-        edit.type = 'button';
-        edit.addEventListener('click', () => {
-          editingDecisionId = decision.id;
-          document.querySelector('#decision-form-title').textContent = 'Edit client decision';
-          document.querySelector('#decision-title').value = decision.title || '';
-          document.querySelector('#decision-option').value = decision.option || '';
-          document.querySelector('#decision-cost').value = decision.costImpact || '';
-          document.querySelector('#decision-schedule').value = decision.scheduleImpact || '';
-          document.querySelector('#decision-client-note').value = decision.clientNote || '';
-          document.querySelector('#decision-status').value = decision.status || 'awaiting-response';
-          document.querySelector('#decision-share').checked = Boolean(decision.shareWithClient);
-          decisionForm.hidden = false;
-          decisionForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
-        card.append(details, edit);
-        decisionList.append(card);
-      });
-    }
-
-    function updateRowStatus(row, status) {
-      row.dataset.status = status;
-      const badge = row.querySelector('.status');
-      badge.className = `status ${status}`;
-      badge.textContent = statusLabel(status);
-      updateSummary();
-      updateProjects();
-    }
-
-    function updateSummary() {
-      const counts = Object.fromEntries(['progress', 'finishing', 'completed'].map((status) => [status, rows.filter((row) => row.dataset.status === status).length]));
-      document.querySelectorAll('.metric-value').forEach((metric, index) => {
-        metric.textContent = [rows.length, counts.completed, counts.finishing, counts.progress][index];
-      });
-      filters.forEach((button) => {
-        const count = button.querySelector('.filter-count');
-        count.textContent = button.dataset.filter === 'all' ? rows.length : counts[button.dataset.filter];
-      });
-    }
-
-    async function loadSavedProjectStatuses() {
-      try {
-        const savedStatuses = await readRecords('projectStatus');
-        const statusByProject = new Map(savedStatuses.map((record) => [record.projectId, record.status]));
-        rows.forEach((row) => {
-          const status = statusByProject.get(row.dataset.projectId);
-          if (status && ['progress', 'finishing', 'completed'].includes(status)) updateRowStatus(row, status);
-        });
-      } catch (error) {
-        notify('Could not load saved project changes in this browser.');
-      }
-    }
-
-    function createElement(tag, className, text) {
-      const element = document.createElement(tag);
-      if (className) element.className = className;
-      if (text) element.textContent = text;
-      return element;
-    }
-
-    function makePhotoId(projectId, stageId) {
-      return `${projectId}:${stageId}:${crypto.randomUUID()}`;
-    }
-
-    async function renderPhotos(container, projectId, stageId) {
-      container.querySelectorAll('img').forEach((image) => {
-        URL.revokeObjectURL(image.src);
-        photoObjectUrls.delete(image.src);
-      });
-      container.replaceChildren();
-      (bundledStagePhotos[stageId] || []).forEach((photo) => {
-        const item = createElement('div', 'photo-item');
-        const image = document.createElement('img');
-        image.src = photo.src;
-        image.alt = photo.name;
-        item.append(image);
-        container.append(item);
-      });
-      const photos = await readRecords('stagePhotos');
-      photos.filter((photo) => photo.projectId === projectId && photo.stageId === stageId).forEach((photo) => {
-        const item = createElement('div', 'photo-item');
-        const image = document.createElement('img');
-        image.src = URL.createObjectURL(photo.blob);
-        image.alt = photo.name;
-        photoObjectUrls.add(image.src);
-        const remove = createElement('button', 'photo-remove', '×');
-        remove.type = 'button';
-        remove.setAttribute('aria-label', `Remove ${photo.name}`);
-        remove.addEventListener('click', async () => {
-          await removeRecord('stagePhotos', photo.id);
-          await renderPhotos(container, projectId, stageId);
-          notify('Photo removed from this stage.');
-        });
-        item.append(image, remove);
-        container.append(item);
-      });
-    }
-
-    function createStageCard(projectId, stageName, stageIndex) {
-      const stageId = `${projectId}-${stageIndex + 1}`;
-      const card = createElement('article', 'stage-card');
-      const cardHeader = createElement('div', 'stage-card-head');
-      cardHeader.append(createElement('h3', '', stageName));
-      const statusLabelElement = createElement('label', 'stage-status', 'Stage status');
-      const statusSelect = document.createElement('select');
-      statusSelect.setAttribute('aria-label', `${stageName} status`);
-      [['not-started', 'Not updated'], ['in-progress', 'In progress'], ['complete', 'Complete']].forEach(([value, label]) => {
-        const option = document.createElement('option');
-        option.value = value;
-        option.textContent = label;
-        statusSelect.append(option);
-      });
-      statusSelect.value = 'not-started';
-      statusLabelElement.append(statusSelect);
-      cardHeader.append(statusLabelElement);
-
-      const noteLabel = createElement('label', 'stage-note-label', 'Client update');
-      const note = createElement('textarea', 'stage-note');
-      note.setAttribute('aria-label', `${stageName} client update`);
-      note.placeholder = 'Add a short update for the client';
-      noteLabel.append(note);
-      const targetDateLabel = createElement('label', 'stage-target-date', 'Target date');
-      const targetDate = document.createElement('input');
-      targetDate.type = 'date';
-      targetDate.setAttribute('aria-label', `${stageName} target date`);
-      targetDateLabel.append(targetDate);
-
-      const actions = createElement('div', 'stage-actions');
-      const uploadLabel = createElement('label', 'upload-button', '＋ Add photos');
-      const upload = document.createElement('input');
-      upload.type = 'file';
-      upload.accept = 'image/*';
-      upload.multiple = true;
-      upload.setAttribute('aria-label', `Add photos for ${stageName}`);
-      const photoList = createElement('div', 'stage-photos');
-      uploadLabel.append(upload);
-      const save = createElement('button', 'save-stage', 'Save stage update');
-      save.type = 'button';
-      save.addEventListener('click', async () => {
-        try {
-          await writeRecord('stageUpdates', { id: stageId, projectId, stageId, stageName, status: statusSelect.value, note: note.value.trim(), plannedDate: targetDate.value, updatedAt: new Date().toISOString() });
-          notify(`${stageName} update saved.`);
-        } catch (error) {
-          notify('Could not save this update in the browser.');
-        }
-      });
-      upload.addEventListener('change', async () => {
-        const files = [...upload.files];
-        for (const file of files) {
-          if (!file.type.startsWith('image/') || file.size > 12 * 1024 * 1024) {
-            notify('Choose an image smaller than 12 MB.');
-            continue;
-          }
-          try {
-            await writeRecord('stagePhotos', { id: makePhotoId(projectId, stageId), projectId, stageId, stageName, name: file.name, type: file.type, blob: file, createdAt: new Date().toISOString() });
-          } catch (error) {
-            notify('Could not save the photo in this browser.');
-          }
-        }
-        upload.value = '';
-        await renderPhotos(photoList, projectId, stageId);
-        if (files.length) notify('Stage photos saved in this browser.');
-      });
-      actions.append(uploadLabel, save);
-      card.append(cardHeader, targetDateLabel, noteLabel, actions, photoList);
-      return card;
-    }
-
-    async function loadStageCard(card, projectId, stageIndex) {
-      const stageId = `${projectId}-${stageIndex + 1}`;
-      const saved = (await readRecords('stageUpdates')).find((record) => record.id === stageId);
-      const defaultUpdate = projectId === '09' ? janeStageDefaults[stageId] : null;
-      const stageUpdate = saved && defaultUpdate?.updatedAt && (!saved.updatedAt || saved.updatedAt < defaultUpdate.updatedAt)
-        ? { ...saved, ...defaultUpdate, plannedDate: saved.plannedDate || '' }
-        : saved || defaultUpdate;
-      const statusSelect = card.querySelector('.stage-status select');
-      const note = card.querySelector('.stage-note');
-      const targetDate = card.querySelector('.stage-target-date input');
-      statusSelect.value = stageUpdate?.status || 'not-started';
-      note.value = stageUpdate?.note || '';
-      targetDate.value = stageUpdate?.plannedDate || '';
-      await renderPhotos(card.querySelector('.stage-photos'), projectId, stageId);
-    }
-
-    async function openProject(button) {
-      activeRow = rows.find((row) => row.dataset.projectId === button.dataset.projectId);
-      const cells = activeRow.querySelectorAll('td');
-      const projectId = activeRow.dataset.projectId;
-      const projectType = cells[1].textContent.trim();
-      document.querySelector('#project-dialog-title').textContent = cells[0].querySelector('.client-name').textContent;
-      document.querySelector('#project-dialog-reference').textContent = `${projectType} · ${cells[2].textContent.trim()}`;
-      projectStatusSelect.value = activeRow.dataset.status;
-      stageList.replaceChildren();
-      const projectKind = projectType.toLowerCase().includes('kitchen') ? 'kitchen' : 'bathroom';
-      const stages = window.portalStages[projectKind];
-      projectDialog.showModal();
-      clearIssueForm();
-      clearDecisionForm();
-      const stageCards = stages.map((stageName, index) => createStageCard(projectId, stageName, index));
-      stageList.append(...stageCards);
-      const stageLoads = await Promise.allSettled(stageCards.map((card, index) => loadStageCard(card, projectId, index)));
-      if (stageLoads.some((result) => result.status === 'rejected')) {
-        notify('The stage options are shown, but saved updates or photos could not be loaded in this browser.');
-      }
-      try {
-        await seedJaneFlooringIssue(projectId);
-        await renderIssueList(projectId);
-      } catch (error) {
-        notify('Could not load issue records in this browser.');
-      }
-      try {
-        await seedJaneFlooringDecision(projectId);
-        await renderDecisionList(projectId);
-      } catch (error) {
-        notify('Could not load client decisions in this browser.');
-      }
-    }
-
-    rows.forEach((row) => {
-      const actionCell = document.createElement('td');
-      const actions = createElement('div', 'project-actions');
-      const openButton = createElement('button', 'project-open', 'Open project');
-      openButton.type = 'button';
-      openButton.dataset.projectId = row.dataset.projectId;
-      openButton.setAttribute('aria-label', `Open project for ${row.querySelector('.client-name').textContent}`);
-      openButton.addEventListener('click', () => openProject(openButton));
-      const clientPreview = createElement('a', 'project-open client-preview', 'Client view ↗');
-      clientPreview.href = `index.html?project=${encodeURIComponent(row.dataset.projectId)}`;
-      clientPreview.target = '_blank';
-      clientPreview.rel = 'noopener';
-      actions.append(openButton, clientPreview);
-      actionCell.append(actions);
-      row.append(actionCell);
-    });
-
-    function updateProjects() {
-      const query = searchInput.value.trim().toLocaleLowerCase();
-      let visibleCount = 0;
-
-      rows.forEach((row) => {
-        const matchesStatus = activeFilter === 'all' || row.dataset.status === activeFilter;
-        const searchableText = [...row.querySelectorAll('td')].slice(0, 5).map((cell) => cell.textContent).join(' ').toLocaleLowerCase();
-        const matchesSearch = searchableText.includes(query);
-        const visible = matchesStatus && matchesSearch;
-        row.hidden = !visible;
-        if (visible) visibleCount += 1;
-      });
-
-      recordCount.textContent = `Showing ${visibleCount} of ${rows.length} projects`;
-      emptyState.style.display = visibleCount ? 'none' : 'block';
-    }
-
-    filters.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeFilter = button.dataset.filter;
-        filters.forEach((filter) => filter.setAttribute('aria-pressed', String(filter === button)));
-        updateProjects();
-      });
-    });
-    searchInput.addEventListener('input', updateProjects);
-    document.querySelector('.dialog-close').addEventListener('click', () => projectDialog.close());
-    document.querySelector('#new-decision-button').addEventListener('click', () => {
-      clearDecisionForm();
-      decisionForm.hidden = false;
-      decisionForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      document.querySelector('#decision-title').focus();
-    });
-    document.querySelector('#cancel-decision-button').addEventListener('click', clearDecisionForm);
-    decisionForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!activeRow) {
-        notify('Open a project before recording a decision.');
-        return;
-      }
-      try {
-        const decisions = await readRecords('projectDecisions');
-        const existing = decisions.find((decision) => decision.id === editingDecisionId);
-        const status = document.querySelector('#decision-status').value;
-        const decision = {
-          id: editingDecisionId || crypto.randomUUID(),
-          projectId: activeRow.dataset.projectId,
-          title: document.querySelector('#decision-title').value.trim(),
-          option: document.querySelector('#decision-option').value.trim(),
-          costImpact: document.querySelector('#decision-cost').value.trim(),
-          scheduleImpact: document.querySelector('#decision-schedule').value.trim(),
-          clientNote: document.querySelector('#decision-client-note').value.trim(),
-          status,
-          shareWithClient: document.querySelector('#decision-share').checked,
-          createdAt: existing?.createdAt || new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          responseAt: status === 'awaiting-response' ? '' : existing?.responseAt || ''
-        };
-        await writeRecord('projectDecisions', decision);
-        clearDecisionForm();
-        await renderDecisionList(activeRow.dataset.projectId);
-        notify(decision.shareWithClient ? 'Decision saved for the client portal.' : 'Decision saved as an internal draft.');
-      } catch (error) {
-        notify('Could not save the client decision in this browser.');
-      }
-    });
-    document.querySelector('#new-issue-button').addEventListener('click', () => {
-      editingIssueId = null;
-      issueAttachment = null;
-      if (issueAttachmentUrl) URL.revokeObjectURL(issueAttachmentUrl);
-      issueAttachmentUrl = null;
-      issueForm.reset();
-      document.querySelector('#issue-form-title').textContent = 'Record project issue or change';
-      document.querySelector('#issue-attachment-name').textContent = 'Optional attachment · EML, TXT, PDF, or MSG · up to 15 MB';
-      document.querySelector('#issue-attachment-download').hidden = true;
-      issueForm.hidden = false;
-      issueForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      document.querySelector('#issue-title').focus();
-    });
-    document.querySelector('#cancel-issue-button').addEventListener('click', clearIssueForm);
-    document.querySelector('#issue-attachment').addEventListener('change', async (event) => {
-      const [file] = event.currentTarget.files;
-      if (!file) return;
-      if (file.size > 15 * 1024 * 1024) {
-        event.currentTarget.value = '';
-        notify('Choose a communication file smaller than 15 MB.');
-        return;
-      }
-      issueAttachment = { name: file.name, type: file.type, blob: file };
-      document.querySelector('#issue-attachment-name').textContent = `Attached: ${file.name}`;
-      if (issueAttachmentUrl) URL.revokeObjectURL(issueAttachmentUrl);
-      issueAttachmentUrl = URL.createObjectURL(file);
-      const attachmentDownload = document.querySelector('#issue-attachment-download');
-      attachmentDownload.href = issueAttachmentUrl;
-      attachmentDownload.download = file.name;
-      attachmentDownload.hidden = false;
-      if (/\.(eml|txt)$/i.test(file.name)) {
-        try {
-          document.querySelector('#issue-communication').value = await file.text();
-        } catch (error) {
-          notify('The attachment is saved, but its text could not be read. Paste the correspondence into the record.');
-        }
-      }
-    });
-    issueForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!activeRow) {
-        notify('Open a project before recording an issue.');
-        return;
-      }
-      try {
-        const existingIssues = await readRecords('projectIssues');
-        const existing = existingIssues.find((issue) => issue.id === editingIssueId);
-        const issue = {
-          id: editingIssueId || crypto.randomUUID(),
-          projectId: activeRow.dataset.projectId,
-          title: document.querySelector('#issue-title').value.trim(),
-          status: document.querySelector('#issue-status').value,
-          problem: document.querySelector('#issue-problem').value.trim(),
-          plan: document.querySelector('#issue-plan').value.trim(),
-          communication: document.querySelector('#issue-communication').value.trim(),
-          clientUpdate: document.querySelector('#issue-client-update').value.trim(),
-          shareWithClient: document.querySelector('#issue-share-with-client').checked,
-          ...(issueAttachment ? { attachment: issueAttachment } : {}),
-          createdAt: existing?.createdAt || new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        if (issue.shareWithClient && !issue.clientUpdate) {
-          notify('Add a client-safe update before sharing it in the portal.');
-          return;
-        }
-        await writeRecord('projectIssues', issue);
-        clearIssueForm();
-        await renderIssueList(activeRow.dataset.projectId);
-        notify(issue.shareWithClient ? 'Issue saved and client update shared.' : 'Issue record saved internally.');
-      } catch (error) {
-        notify('Could not save the issue record in this browser.');
-      }
-    });
-    projectDialog.addEventListener('click', (event) => {
-      if (event.target === projectDialog) projectDialog.close();
-    });
-    projectDialog.addEventListener('close', () => {
-      clearDecisionForm();
-      photoObjectUrls.forEach((url) => URL.revokeObjectURL(url));
-      photoObjectUrls.clear();
-      if (issueAttachmentUrl) URL.revokeObjectURL(issueAttachmentUrl);
-      issueAttachmentUrl = null;
-    });
-    document.querySelector('#save-project-status').addEventListener('click', async () => {
-      try {
-        const status = projectStatusSelect.value;
-        await writeRecord('projectStatus', { projectId: activeRow.dataset.projectId, status });
-        updateRowStatus(activeRow, status);
-        notify('Project status saved.');
-      } catch (error) {
-        notify('Could not save the project status in this browser.');
-      }
-    });
-    updateSummary();
-    loadSavedProjectStatuses();
-  </script>
-</body>
+  <script src="staff-portal.js"></script>
+  </body>
 </html>

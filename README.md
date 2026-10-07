@@ -1,47 +1,60 @@
 # K&B (Kitchens & Bathrooms) London Limited
 
-Static staff and client portal demo for renovation project updates.
+Staff and customer portal for renovation project updates. Private project data is read from Supabase, and project files are stored in a private Supabase Storage bucket.
 
-- `staff.html` contains the project register, stage updates and photos, target dates, issue records, and client decision publishing.
-- `index.html` contains the client project timeline, stage galleries, design previews, upcoming stage, and shared decision responses.
-- `projects.js` contains the demo project records and the eight bathroom/kitchen stages.
+- `staff.html` and `staff-portal.js` provide the staff project register and project workspace.
+- `index.html` and `client-portal.js` provide the customer project portal.
+- `projects.js` contains only the shared bathroom/kitchen stage labels.
+- `supabase/portal.js` checks the signed-in role before either private page is shown.
 
-Project data is stored in browser-local IndexedDB. The demo has no authentication, server-side storage, or access controls; it is not suitable for confidential production data or cross-device client access.
+Authorization is enforced by Supabase Row Level Security (RLS), not by JavaScript filtering. Staff accounts can access all projects. A customer account can access only the project assigned to its profile.
 
-## Supabase authentication foundation
+## Supabase setup
 
-The test sign-in page is at `login.html`, with separate **Staff login** and **Customer login** choices. Each choice checks the Supabase user's assigned role before continuing. The browser uses only the Supabase project URL and public publishable key in `supabase/config.js`; never put a `service_role` or secret key in browser code.
+The sign-in page is `login.html`, with separate **Staff login** and **Customer login** choices. The browser uses only the Supabase project URL and public publishable key in `supabase/config.js`; never put a `service_role` or secret key in browser code. Disable public sign-ups and create/invite users through **Authentication → Users**.
 
-Before creating accounts, run [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL Editor. Keep public sign-ups disabled; create or invite users through **Authentication → Users** in the Supabase dashboard. Copy each user's UUID from there, then use the SQL Editor to add their profile. Add the relevant project row first:
+Run [`supabase/schema.sql`](./supabase/schema.sql) for a new project. Since the initial version has already been run in the configured project, run [`supabase/portal-upgrade.sql`](./supabase/portal-upgrade.sql) in the SQL Editor to add the portal fields and tighten file access. Confirm the selected Supabase project and take an appropriate backup before running production SQL.
+
+Create a project record before assigning customer accounts. For example:
 
 ```sql
-insert into public.projects (id, title, status)
-values ('09', 'Bathroom renovation', 'progress');
+insert into public.projects
+  (id, title, client_name, reference, kind, status, project_note, start_date, duration)
+values
+  ('PROJECT-ID', 'Bathroom renovation', 'Customer name', 'Job reference',
+   'bathroom', 'progress', '', null, '');
+```
 
--- Staff account: replace the UUID with the staff user's Auth UUID.
+Create/invite accounts in Supabase Authentication, then create their profiles using their Auth UUID:
+
+```sql
+-- Staff account; staff can access all projects.
 insert into public.profiles (id, role)
 values ('00000000-0000-0000-0000-000000000000', 'staff');
 
--- Customer account: replace the UUID; project_id must match a project row.
+-- Customer account; use only the project assigned to this customer.
 insert into public.profiles (id, role, project_id)
-values ('00000000-0000-0000-0000-000000000000', 'client', '09');
+values ('00000000-0000-0000-0000-000000000000', 'client', 'PROJECT-ID');
 ```
 
-Replace both example UUIDs before running the relevant profile statement; do not run both examples with the placeholder UUID. Give each customer only their own project assignment.
+Replace the example UUIDs before running either statement. Never run both examples with the same placeholder UUID. Give each customer only their own project assignment. Keep sign-up invite-only, and set Supabase Site URL and allowed redirect URLs to the actual website origins, including `login.html` for password resets.
 
-Keep sign-up invite-only. Set the Supabase Site URL and allowed redirect URLs to the actual development/production origins, including `login.html` for password resets. Do not create or send passwords in this repository.
+## Project data and files
 
-**Important:** this is only the authentication/schema foundation. The existing `index.html` and `staff.html` still read project content from static files and browser-local IndexedDB, and do not yet require a Supabase session. A login page alone does not protect those pages or their assets. Do not use this for real client access until all private data and storage have been migrated to Supabase and the pages enforce the session and Row Level Security policies.
+Stage updates, issues, decisions, customer-safe updates, profiles, projects, and file metadata are stored in Supabase. Staff stage updates, photos, and project documents default to private. Staff must explicitly mark a stage update or file visible to the customer. Internal issues, correspondence, and attachments are staff-only; only the separate customer-safe update text is published.
 
-This is a test-login flow, not a protected portal. It routes staff to the staff demo and only supports the client demo project with ID `09`; it deliberately does not route other client assignments into Jane's page.
+The `project-files` Storage bucket is private. The app uses short-lived signed URLs for permitted files, and storage access is checked against both the project assignment and a matching `project_files` record. Never put customer photos/documents in a public bucket or website `assets/` folder.
 
-## Development preview
+The staff portal requires a staff profile. The customer portal requires a client profile with a project assignment. If the database contains no project records or profiles, the pages will remain empty until those records are added. Messaging is not connected yet.
 
-The **Deploy development previews** GitHub Actions workflow can be run manually after GitHub Pages is enabled with GitHub Actions as its source. It publishes:
+Before inviting customers:
 
-- Client preview: `/development/`
-- Staff preview: `/development/staff.html`
+1. Run the upgrade SQL and confirm `project-files` is private.
+2. Create project rows and user profiles; assign each customer only their own project.
+3. Sign in as staff and upload photos/documents through the staff portal.
+4. Test signed-out access, staff access, a customer's own project, another customer's project, shared files, and internal files, including opening a copied file URL after sign-out.
+5. Confirm backups, account access, and the real website origin/redirect allow-list.
 
-Both use [development/projects.js](./development/projects.js), which contains Jane's address-free project plus eight anonymized sample projects for reviewing staff register filters and navigation. No other project names, references, or notes are included. The staff preview uses a sanitized issue summary rather than the internal email summary. Both pages display development notices; the client message form does not send messages. The client preview header includes a link to the staff preview.
+## Existing development preview and repository assets
 
-The staff preview is **not private**: it has no authentication, and anything in the Pages artifact can be viewed by anyone who can access the Pages site. Do not use it for real staff work or enter confidential data. Before deployment, ensure the repository and Pages visibility are appropriate for a review link. The previews still contain Jane Hill's name, project reference, photos, and design files, and should only be shared with intended reviewers.
+The Pages workflow publishes only a privacy notice placeholder and does not deploy the portal or assets. This code change does not run that workflow and cannot erase prior deployments. The repository's `assets/` folder still contains legacy project media; do not serve or reuse those paths for customer files. After those originals have been migrated securely and verified, remove them from the repository and consider repository visibility and Git history separately.

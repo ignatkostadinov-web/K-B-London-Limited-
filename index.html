@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#2c3238">
-  <title>Your bathroom project | K&amp;B (Kitchens &amp; Bathrooms) London Limited</title>
+  <title>Your project | K&amp;B (Kitchens &amp; Bathrooms) London Limited</title>
+  <style>[data-private-page] { visibility: hidden; }</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -35,7 +36,10 @@
     .app { min-height: 100vh; display: grid; grid-template-columns: 236px minmax(0, 1fr); }
     .sidebar { display: flex; flex-direction: column; min-height: 100vh; padding: 27px 18px 20px; background: var(--slate); color: #fff; border-right: 1px solid #3a4249; }
     .brand { display: flex; align-items: center; gap: 11px; padding: 0 9px 31px; }
-    .brand-logo { display: block; width: 100%; max-width: 195px; height: auto; }
+    .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 8px; background: linear-gradient(135deg, #d49b00, #f3b41b); color: var(--slate-dark); font-size: 11px; font-weight: 800; letter-spacing: .06em; }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-copy strong { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    .brand-copy small { color: #b9c1c6; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
     .side-label { margin: 0 10px 9px; color: #aab2b8; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
     .nav { display: grid; gap: 4px; }
     .nav a { display: flex; align-items: center; gap: 12px; min-height: 42px; padding: 0 11px; border-radius: 6px; color: #c1c8cd; text-decoration: none; font-weight: 500; }
@@ -289,10 +293,13 @@
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
   </style>
 </head>
-<body>
+<body data-private-page>
   <div class="app">
     <aside class="sidebar" aria-label="Main navigation">
-      <div class="brand"><img class="brand-logo" src="assets/kb-logo.png" alt="K&amp;B (Kitchens &amp; Bathrooms) London Limited logo"></div>
+      <div class="brand" aria-label="K&amp;B (Kitchens &amp; Bathrooms) London Limited">
+        <span class="brand-mark" aria-hidden="true">K&amp;B</span>
+        <span class="brand-copy"><strong>K&amp;B</strong><small>London</small></span>
+      </div>
       <p class="side-label">Your account</p>
       <nav class="nav">
         <a class="active" href="#overview"><span class="nav-icon" aria-hidden="true">▦</span>Project overview</a>
@@ -301,18 +308,18 @@
       </nav>
       <div class="side-project">
         <p class="side-label">Current project</p>
-        <button class="project-switch" type="button" aria-label="Current project: Jane Hill bathroom renovation">
-          <span class="project-thumb" aria-hidden="true">K&amp;B</span><span><strong id="sidebar-project-title">Bathroom renovation</strong><small>Project dashboard</small></span><span class="project-arrow" aria-hidden="true">⌄</span>
+        <button class="project-switch" type="button" aria-label="Current project">
+        <span class="project-thumb" aria-hidden="true">K&amp;B</span><span><strong id="sidebar-project-title">Your project</strong><small>Project dashboard</small></span><span class="project-arrow" aria-hidden="true">⌄</span>
         </button>
       </div>
       <div class="help-card"><strong>Need a hand?</strong><p>Your project coordinator is here to help.</p><button class="text-button message-trigger" type="button">Send a message <span aria-hidden="true">→</span></button></div>
-      <div class="account"><div class="avatar" id="client-avatar" aria-hidden="true">JH</div><div><strong id="sidebar-client-name">Jane Hill</strong><small>Client account</small></div></div>
+      <div class="account"><div class="avatar" id="client-avatar" aria-hidden="true">KB</div><div><strong id="sidebar-client-name">Customer</strong><small>Client account</small></div></div>
     </aside>
 
     <main id="overview">
-      <header class="topbar"><div class="crumb"><span class="welcome-kicker">YOUR PROJECT, MADE CLEAR</span><strong class="welcome-title" id="welcome-title">Welcome to your project</strong></div><div class="top-actions"><a class="notification-link" id="top-update-link" href="#updates" hidden><span class="notification-mark" aria-hidden="true"></span>Project update</a><a class="staff-preview-link" href="staff.html">Staff preview ↗</a><button class="icon-button message-trigger" type="button" aria-label="Message your project coordinator" title="Message your project coordinator"><span aria-hidden="true">✉</span></button></div></header>
+      <header class="topbar"><div class="crumb"><span class="welcome-kicker">YOUR PROJECT, MADE CLEAR</span><strong class="welcome-title" id="welcome-title">Welcome to your project</strong></div><div class="top-actions"><a class="notification-link" id="top-update-link" href="#updates" hidden><span class="notification-mark" aria-hidden="true"></span>Project update</a><button class="icon-button message-trigger" type="button" aria-label="Message your project coordinator" title="Message your project coordinator"><span aria-hidden="true">✉</span></button><button class="staff-preview-link" id="portal-sign-out" type="button">Sign out</button></div></header>
       <div class="content">
-        <p class="demo-banner"><strong>Development preview:</strong> sample portal for feedback only. It has no sign-in, messages are not sent, and changes are stored only in this browser.</p>
+        <p class="demo-banner" hidden id="portal-error" role="alert"></p>
         <section class="brand-promise" aria-labelledby="brand-promise-title">
           <div class="brand-promise-copy">
             <p class="brand-promise-kicker">K&amp;B (Kitchens &amp; Bathrooms) London Limited</p>
@@ -325,7 +332,7 @@
             <div class="brand-promise-value"><span class="brand-promise-mark" aria-hidden="true">⌂</span><span>Respect for your home</span></div>
           </div>
         </section>
-        <section class="heading" aria-labelledby="page-title"><div><p class="eyebrow" id="project-reference">Job 354067 / WO198032</p><h1 id="page-title">Bathroom renovation</h1><p class="subheading" id="project-subheading">Your renovation, clearly tracked from first day to final finish.</p></div><button class="button message-trigger" type="button"><span aria-hidden="true">✉</span> Message the team</button></section>
+        <section class="heading" aria-labelledby="page-title"><div><p class="eyebrow" id="project-reference"></p><h1 id="page-title">Your project</h1><p class="subheading" id="project-subheading">Your renovation, clearly tracked from first day to final finish.</p></div><button class="button message-trigger" type="button"><span aria-hidden="true">✉</span> Message the team</button></section>
 
         <a class="latest-update-card" id="latest-update-card" href="#updates" hidden>
           <span class="latest-update-icon" aria-hidden="true">↗</span>
@@ -359,58 +366,13 @@
         <section class="decisions" aria-labelledby="decisions-title">
           <div class="decisions-head"><div><h2 id="decisions-title">Decisions &amp; approvals</h2><p>Review project choices and respond when your team requests approval.</p></div></div>
           <div class="decision-list" id="client-decision-list" aria-live="polite"><p class="decision-empty">Loading project decisions…</p></div>
-          <p class="local-demo-note">Demo notice: decisions and responses are stored only in this browser and are not secure or shared across devices.</p>
+          <p class="local-demo-note">Only decisions shared by your project team appear here.</p>
         </section>
 
-        <details class="project-gallery" id="prestart-gallery" hidden>
-          <summary><span class="project-gallery-label">Before work began<span class="project-gallery-date">Original bathroom photos · 5 October 2026</span></span></summary>
-          <div class="project-gallery-content">
-            <p>Photos of the original bathroom condition, taken before the strip-out started.</p>
-            <div class="prestart-photos">
-              <figure><img src="assets/jane-start-1.jpeg" alt="Original bathroom before work began, viewed from the doorway" loading="lazy"><figcaption>Original bathroom condition · View 1</figcaption></figure>
-              <figure><img src="assets/jane-start-2.jpeg" alt="Original bathroom before work began, showing the bath, toilet and sink" loading="lazy"><figcaption>Original bathroom condition · View 2</figcaption></figure>
-            </div>
-          </div>
-        </details>
-
-        <details class="project-gallery" id="design-gallery" hidden>
-          <summary><span class="project-gallery-label">Design &amp; planned finish<span class="project-gallery-date">See the intended look for your completed bathroom</span></span></summary>
-          <div class="project-gallery-content">
-            <p>Approved design drawings for the planned bathroom finish. Open a drawing to preview it here, or open/download the PDF.</p>
-            <div class="design-documents">
-              <details class="design-document">
-                <summary>Bath design</summary>
-                <div class="design-document-preview">
-                  <div class="design-document-actions">
-                    <a class="design-document-link primary" href="assets/designs/jane-hill-bath-design.pdf" target="_blank" rel="noopener">Open full-size PDF</a>
-                    <a class="design-document-link" href="assets/designs/jane-hill-bath-design.pdf" download>Download PDF</a>
-                  </div>
-                  <iframe src="assets/designs/jane-hill-bath-design.pdf#view=FitH" title="Jane Hill planned bath design PDF"></iframe>
-                </div>
-              </details>
-              <details class="design-document">
-                <summary>Radiator and towel rail design</summary>
-                <div class="design-document-preview">
-                  <div class="design-document-actions">
-                    <a class="design-document-link primary" href="assets/designs/jane-hill-radiator-and-rail-design.pdf" target="_blank" rel="noopener">Open full-size PDF</a>
-                    <a class="design-document-link" href="assets/designs/jane-hill-radiator-and-rail-design.pdf" download>Download PDF</a>
-                  </div>
-                  <iframe src="assets/designs/jane-hill-radiator-and-rail-design.pdf#view=FitH" title="Jane Hill planned radiator and towel rail design PDF" loading="lazy"></iframe>
-                </div>
-              </details>
-              <details class="design-document">
-                <summary>Bathroom furniture design</summary>
-                <div class="design-document-preview">
-                  <div class="design-document-actions">
-                    <a class="design-document-link primary" href="assets/designs/jane-hill-furniture-design.pdf" target="_blank" rel="noopener">Open full-size PDF</a>
-                    <a class="design-document-link" href="assets/designs/jane-hill-furniture-design.pdf" download>Download PDF</a>
-                  </div>
-                  <iframe src="assets/designs/jane-hill-furniture-design.pdf#view=FitH" title="Jane Hill planned bathroom furniture design PDF" loading="lazy"></iframe>
-                </div>
-              </details>
-            </div>
-          </div>
-        </details>
+        <section class="project-gallery" id="client-files" hidden>
+          <h2>Shared project files</h2>
+          <div id="client-file-list"></div>
+        </section>
 
         <div class="section-head" id="updates"><h2>Daily site log</h2></div>
         <section class="lower-grid" aria-label="Project updates and schedule">
@@ -418,9 +380,9 @@
             <div class="empty-log"><span class="empty-log-mark" aria-hidden="true">◷</span><strong>No daily entries yet</strong><p>Your project team can add site notes and photos here as work progresses.</p></div>
           </div>
           <aside class="schedule" aria-labelledby="schedule-title"><div class="schedule-title"><h2 id="schedule-title">Project details</h2><span class="calendar-mark" aria-hidden="true">▦</span></div>
-            <div class="schedule-event"><div class="event-date">TYPE</div><div class="event-copy"><strong id="detail-project-title">Bathroom renovation</strong><span>Client · <span id="detail-client-name">Jane Hill</span></span></div></div>
-            <div class="schedule-event" id="detail-start-row"><div class="event-date">START</div><div class="event-copy"><strong id="detail-start">5 October 2026</strong><span>Work commenced</span></div></div>
-            <div class="schedule-event" id="detail-duration-row"><div class="event-date">LENGTH</div><div class="event-copy"><strong id="detail-duration">10 working days</strong><span>Scheduled window</span></div></div>
+            <div class="schedule-event"><div class="event-date">TYPE</div><div class="event-copy"><strong id="detail-project-title">Your project</strong><span>Client · <span id="detail-client-name">Customer</span></span></div></div>
+            <div class="schedule-event" id="detail-start-row" hidden><div class="event-date">START</div><div class="event-copy"><strong id="detail-start"></strong><span>Work commenced</span></div></div>
+            <div class="schedule-event" id="detail-duration-row" hidden><div class="event-date">LENGTH</div><div class="event-copy"><strong id="detail-duration"></strong><span>Scheduled window</span></div></div>
             <p class="schedule-note" id="detail-project-note">Site logs are open. Updates will appear here once shared by your project team.</p>
           </aside>
         </section>
@@ -431,538 +393,16 @@
 
   <dialog id="message-dialog" aria-labelledby="message-title">
     <form class="dialog-inner" id="message-form">
-      <div class="dialog-head"><div><p class="eyebrow" id="dialog-client-project">Jane Hill · Bathroom renovation</p><h2 id="message-title">Message your project team</h2></div><button class="close-button" type="button" aria-label="Close message dialog">×</button></div>
+      <div class="dialog-head"><div><p class="eyebrow" id="dialog-client-project">Your project</p><h2 id="message-title">Message your project team</h2></div><button class="close-button" type="button" aria-label="Close message dialog">×</button></div>
       <label for="message-text">How can we help?</label><textarea id="message-text" name="message" placeholder="Write your message to the project team..." required></textarea>
       <div class="dialog-actions"><button class="button close-action" type="button">Cancel</button><button class="button primary" type="submit">Send message <span aria-hidden="true">→</span></button></div>
     </form>
   </dialog>
   <div class="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+  <script src="supabase/config.js"></script>
+  <script src="supabase/portal.js"></script>
   <script src="projects.js"></script>
-  <script>
-    const messageDialog = document.querySelector('#message-dialog');
-    const toast = document.querySelector('.toast');
-    const clientSiteLog = document.querySelector('#client-site-log');
-    const requestedProjectId = new URLSearchParams(window.location.search).get('project');
-    const clientProject = window.portalProjects.find((project) => project.id === requestedProjectId) || window.portalProjects.find((project) => project.id === '09');
-    const clientProjectId = clientProject.id;
-    const stagePhotoAssets = {
-      '09-1': [
-        { src: 'assets/jane-phase-1-stripout-1.jpeg', alt: 'Bathroom during the phase-one strip-out, with the original wall finishes removed', caption: 'Strip-out underway · View 1' },
-        { src: 'assets/jane-phase-1-stripout-2.jpeg', alt: 'Exposed wall framing during the bathroom strip-out', caption: 'Exposed wall structure · View 2' },
-        { src: 'assets/jane-phase-1-stripout-3.jpeg', alt: 'Bathroom walls and floor opened up during strip-out', caption: 'Room cleared back for preparation · View 3' }
-      ],
-      '09-4': [
-        { src: 'assets/jane-phase-4-plastering-1.png', alt: 'Completed plasterboard and plastering work in Jane Hill’s bathroom, view 1', caption: 'Wall boarding and plastering completed · View 1' },
-        { src: 'assets/jane-phase-4-plastering-2.png', alt: 'Completed plasterboard and plastering work in Jane Hill’s bathroom, view 2', caption: 'Wall boarding and plastering completed · View 2' }
-      ]
-    };
-    const janeStageDefaults = [
-      { id: '09-1', projectId: '09', stageId: '09-1', stageName: 'Strip-out & substrate inspection', status: 'complete', note: 'Pre-start site condition captured before work began, with the original bathroom left intact. We then stripped out the room and prepared the area for the next phase.', updatedAt: '2026-10-05T15:00:00Z' },
-      { id: '09-2', projectId: '09', stageId: '09-2', stageName: 'Subfloor prep & structural adjustments', status: 'in-progress', note: 'Subfloor preparation and structural adjustments are in progress.', updatedAt: '2026-10-06T16:23:00Z' },
-      { id: '09-3', projectId: '09', stageId: '09-3', stageName: 'First fix plumbing & electrical', status: 'in-progress', note: 'First-fix plumbing and electrical work is in progress.', updatedAt: '2026-10-06T16:23:00Z' },
-      { id: '09-4', projectId: '09', stageId: '09-4', stageName: 'Wall boarding, plastering & waterproofing', status: 'complete', note: 'Wall boarding and plastering are complete. Two progress photos have been added to this stage.', updatedAt: '2026-10-06T16:23:00Z' }
-    ];
-    const janeDecisionDefault = {
-      id: 'jane-floor-finish-2026-10-06',
-      projectId: '09',
-      title: 'Bathroom floor finish',
-      option: 'Novocore Light Brown Oak LVF with integrated underlay · Wickes product 323583',
-      costImpact: 'Final cost impact to be confirmed after the supplier confirms the required pack quantity.',
-      scheduleImpact: 'Availability and delivery timing are being confirmed with the supplier.',
-      clientNote: 'Your selected flooring has been recorded. We are confirming stock, the required quantity, and arrangements for the unused original tile packs.',
-      status: 'approved',
-      shareWithClient: true,
-      createdAt: '2026-10-06T15:18:00Z',
-      updatedAt: '2026-10-06T15:18:00Z'
-    };
-    let toastTimer;
-
-    function configureClientProject() {
-      const initials = clientProject.client.split(/\s+/).filter(Boolean);
-      document.querySelector('#page-title').textContent = clientProject.title;
-      document.querySelector('#project-reference').textContent = clientProject.reference;
-      document.querySelector('#sidebar-project-title').textContent = clientProject.title;
-      document.querySelector('#sidebar-client-name').textContent = clientProject.client;
-      document.querySelector('#welcome-title').textContent = `Welcome, ${initials[0]} — your project starts here`;
-      document.querySelector('#prestart-gallery').hidden = clientProject.id !== '09';
-      document.querySelector('#client-avatar').textContent = `${initials[0][0]}${initials[initials.length - 1][0]}`.toUpperCase();
-      document.querySelector('#detail-project-title').textContent = clientProject.title;
-      document.querySelector('#project-type-subtitle').textContent = clientProject.title;
-      document.querySelector('#detail-client-name').textContent = clientProject.client;
-      document.querySelector('#detail-project-note').textContent = clientProject.note;
-      document.querySelector('#dialog-client-project').textContent = `${clientProject.client} · ${clientProject.title}`;
-      document.querySelector('#design-gallery').hidden = clientProject.id !== '09';
-      if (clientProject.startDate) {
-        document.querySelector('#project-start').textContent = clientProject.startDate;
-        document.querySelector('#detail-start').textContent = clientProject.startDate.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), /, '');
-      } else {
-        document.querySelector('#project-start-row').hidden = true;
-        document.querySelector('#detail-start-row').hidden = true;
-      }
-      if (clientProject.duration) {
-        document.querySelector('#project-duration').textContent = clientProject.duration;
-        document.querySelector('#detail-duration').textContent = clientProject.duration;
-      } else {
-        document.querySelector('#project-duration-row').hidden = true;
-        document.querySelector('#detail-duration-row').hidden = true;
-      }
-      const statusPill = document.querySelector('.status-pill');
-      const indicator = statusPill.querySelector('i');
-      statusPill.textContent = { progress: 'In progress', finishing: 'In finishing stages', completed: 'Completed' }[clientProject.status];
-      statusPill.prepend(indicator);
-      document.title = `${clientProject.title} · ${clientProject.client} | K&B (Kitchens & Bathrooms) London Limited`;
-    }
-
-    function openClientDatabase() {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.open('kb-staff-portal', 4);
-        request.onupgradeneeded = () => {
-          const database = request.result;
-          if (!database.objectStoreNames.contains('projectStatus')) database.createObjectStore('projectStatus', { keyPath: 'projectId' });
-          if (!database.objectStoreNames.contains('stageUpdates')) database.createObjectStore('stageUpdates', { keyPath: 'id' });
-          if (!database.objectStoreNames.contains('stagePhotos')) database.createObjectStore('stagePhotos', { keyPath: 'id' });
-          if (!database.objectStoreNames.contains('projectIssues')) database.createObjectStore('projectIssues', { keyPath: 'id' });
-          if (!database.objectStoreNames.contains('projectDecisions')) database.createObjectStore('projectDecisions', { keyPath: 'id' });
-        };
-        request.onsuccess = () => {
-          const database = request.result;
-          database.onversionchange = () => database.close();
-          resolve(database);
-        };
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function readClientStore(database, storeName) {
-      return new Promise((resolve, reject) => {
-        const request = database.transaction(storeName, 'readonly').objectStore(storeName).getAll();
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function writeClientRecord(database, storeName, record) {
-      return new Promise((resolve, reject) => {
-        const transaction = database.transaction(storeName, 'readwrite');
-        transaction.objectStore(storeName).put(record);
-        transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
-        transaction.onabort = () => reject(transaction.error);
-      });
-    }
-
-    async function seedJaneProjectProgress() {
-      const database = await openClientDatabase();
-      const [updates, photos, statuses] = await Promise.all([
-        readClientStore(database, 'stageUpdates'),
-        readClientStore(database, 'stagePhotos'),
-        readClientStore(database, 'projectStatus')
-      ]);
-      const oldPortalPhotoIds = new Set([
-        '09:09-1:stripout',
-        '09:09-4:boarding',
-        '09:09-1:before-1',
-        '09:09-1:before-2'
-      ]);
-      for (const photo of photos) {
-        if (oldPortalPhotoIds.has(photo.id)) {
-          await new Promise((resolve, reject) => {
-            const transaction = database.transaction('stagePhotos', 'readwrite');
-            transaction.objectStore('stagePhotos').delete(photo.id);
-            transaction.oncomplete = resolve;
-            transaction.onerror = () => reject(transaction.error);
-            transaction.onabort = () => reject(transaction.error);
-          });
-        }
-      }
-      const records = [{ id: '09', projectId: '09', status: 'progress' }, ...janeStageDefaults];
-
-      for (const record of records) {
-        if (record.id === '09' && !statuses.some((saved) => saved.projectId === '09')) {
-          await writeClientRecord(database, 'projectStatus', record);
-        } else if (record.id !== '09') {
-          const saved = updates.find((item) => item.id === record.id);
-          if (!saved || (record.updatedAt && (!saved.updatedAt || saved.updatedAt < record.updatedAt))) {
-            await writeClientRecord(database, 'stageUpdates', { ...saved, ...record, plannedDate: saved?.plannedDate || '' });
-          }
-        }
-      }
-      const decisions = await readClientStore(database, 'projectDecisions');
-      if (!decisions.some((decision) => decision.id === janeDecisionDefault.id)) {
-        await writeClientRecord(database, 'projectDecisions', janeDecisionDefault);
-      }
-    }
-
-    function renderClientStageGrid(updates, photos, projectStatus) {
-      const stageGrid = document.querySelector('#client-stage-grid');
-      const stageNames = window.portalStages[clientProject.kind];
-      let completedCount = 0;
-      let activeCount = 0;
-      stageGrid.replaceChildren();
-
-      stageNames.forEach((stageName, index) => {
-        const stageId = `${clientProjectId}-${index + 1}`;
-        const update = updates.find((record) => record.stageId === stageId);
-        const stagePhotos = photos.filter((photo) => photo.stageId === stageId);
-        const bundledPhotos = clientProjectId === '09' ? stagePhotoAssets[stageId] || [] : [];
-        const photoCount = stagePhotos.length + bundledPhotos.length;
-        const stageStatus = update?.status || 'not-started';
-        if (stageStatus === 'complete') completedCount += 1;
-        if (stageStatus === 'in-progress') activeCount += 1;
-
-        const card = document.createElement('article');
-        card.className = `client-stage${stageStatus === 'complete' ? ' complete' : stageStatus === 'in-progress' ? ' in-progress' : ''}`;
-        const toggle = document.createElement('button');
-        toggle.className = 'client-stage-toggle';
-        toggle.type = 'button';
-        toggle.setAttribute('aria-expanded', 'false');
-        const detailsId = `stage-details-${clientProjectId}-${index + 1}`;
-        toggle.setAttribute('aria-controls', detailsId);
-        const heading = document.createElement('span');
-        heading.className = 'client-stage-heading';
-        const stageHeading = document.createElement('span');
-        const number = document.createElement('span');
-        number.className = 'client-stage-number';
-        number.textContent = `Stage ${String(index + 1).padStart(2, '0')}`;
-        const title = document.createElement('strong');
-        title.className = 'client-stage-title';
-        title.textContent = stageName;
-        stageHeading.append(number, title);
-        const state = document.createElement('span');
-        state.className = `client-stage-state${stageStatus === 'complete' ? ' complete' : stageStatus === 'in-progress' ? ' active' : ''}`;
-        state.textContent = stageStatus === 'complete' ? 'Complete' : stageStatus === 'in-progress' ? 'In progress' : 'Not updated';
-        heading.append(stageHeading, state);
-        const meta = document.createElement('span');
-        meta.className = 'client-stage-meta';
-        const photoSummary = document.createElement('span');
-        photoSummary.className = 'client-stage-photos';
-        photoSummary.textContent = photoCount ? `${photoCount} ${photoCount === 1 ? 'photo' : 'photos'}` : 'No photos yet';
-        const chevron = document.createElement('span');
-        chevron.className = 'client-stage-chevron';
-        chevron.setAttribute('aria-hidden', 'true');
-        chevron.textContent = '⌄';
-        meta.append(photoSummary, chevron);
-        toggle.append(heading, meta);
-
-        const details = document.createElement('div');
-        details.className = 'client-stage-details';
-        details.id = detailsId;
-        details.hidden = true;
-        toggle.addEventListener('click', () => {
-          const expanded = toggle.getAttribute('aria-expanded') !== 'true';
-          toggle.setAttribute('aria-expanded', String(expanded));
-          details.hidden = !expanded;
-          card.classList.toggle('expanded', expanded);
-        });
-
-        if (update?.note) {
-          const note = document.createElement('p');
-          note.className = 'client-stage-note';
-          note.textContent = update.note;
-          details.append(note);
-        }
-        const allStagePhotos = [
-          ...bundledPhotos.map((photo) => ({ src: photo.src, alt: photo.alt, caption: photo.caption })),
-          ...stagePhotos.map((photo) => ({ src: URL.createObjectURL(photo.blob), alt: photo.name, caption: photo.name }))
-        ];
-        if (allStagePhotos.length) {
-          const gallery = document.createElement('div');
-          gallery.className = 'client-stage-photo-gallery';
-          allStagePhotos.forEach((photo) => {
-            const figure = document.createElement('figure');
-            const image = document.createElement('img');
-            image.src = photo.src;
-            image.alt = photo.alt;
-            image.loading = 'lazy';
-            const caption = document.createElement('figcaption');
-            caption.textContent = photo.caption;
-            figure.append(image, caption);
-            gallery.append(figure);
-          });
-          details.append(gallery);
-        } else if (!update?.note) {
-          const empty = document.createElement('p');
-          empty.className = 'client-stage-empty';
-          empty.textContent = 'No photos or updates have been added to this stage yet.';
-          details.append(empty);
-        }
-        card.append(toggle, details);
-        stageGrid.append(card);
-      });
-
-      const activeIndex = stageNames.findIndex((_, index) => updates.find((record) => record.stageId === `${clientProjectId}-${index + 1}`)?.status === 'in-progress');
-      const nextIndex = activeIndex >= 0
-        ? activeIndex
-        : stageNames.findIndex((_, index) => updates.find((record) => record.stageId === `${clientProjectId}-${index + 1}`)?.status !== 'complete');
-      const nextTitle = document.querySelector('#next-step-title');
-      const nextKicker = document.querySelector('#next-step-kicker');
-      const nextCopy = document.querySelector('#next-step-copy');
-      const nextDate = document.querySelector('#next-step-date');
-      const nextDateLabel = document.querySelector('#next-step-date-label');
-      if (nextIndex < 0 || projectStatus === 'completed') {
-        nextKicker.textContent = 'Project milestone';
-        nextTitle.textContent = 'All stages completed';
-        nextCopy.textContent = 'Your team will guide you through the final handover.';
-        nextDateLabel.textContent = 'Project status';
-        nextDate.textContent = 'Completed';
-      } else {
-        const nextStageId = `${clientProjectId}-${nextIndex + 1}`;
-        const nextUpdate = updates.find((record) => record.stageId === nextStageId);
-        nextKicker.textContent = activeIndex === nextIndex ? 'Happening now' : 'Up next';
-        nextTitle.textContent = stageNames[nextIndex];
-        nextCopy.textContent = activeIndex === nextIndex
-          ? 'Your team is currently working on this stage. Open it below to see the update and photos.'
-          : 'This is the next stage in your project timeline.';
-        nextDateLabel.textContent = activeIndex === nextIndex ? 'Target date' : 'Planned date';
-        nextDate.textContent = nextUpdate?.plannedDate
-          ? new Date(`${nextUpdate.plannedDate}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-          : 'To be confirmed by your project team';
-      }
-
-      const summary = [];
-      if (completedCount) summary.push(`${completedCount} complete`);
-      if (activeCount) summary.push(`${activeCount} in progress`);
-      document.querySelector('#stage-summary').textContent = summary.length ? summary.join(' · ') : 'No stage updates posted yet';
-
-      const completionPercent = projectStatus === 'completed'
-        ? 100
-        : Math.round(((completedCount + activeCount * 0.5) / stageNames.length) * 100);
-      document.querySelector('#progress-percent').textContent = `${completionPercent}%`;
-      document.querySelector('#progress-fill').style.width = `${completionPercent}%`;
-      document.querySelector('#progress-track').setAttribute('aria-valuenow', String(completionPercent));
-      document.querySelector('#progress-summary').textContent = projectStatus === 'completed'
-        ? 'Project marked complete.'
-        : `${completedCount} of ${stageNames.length} stages complete${activeCount ? ` · ${activeCount} ${activeCount === 1 ? 'stage' : 'stages'} underway` : ''}. In-progress stages count halfway until marked complete.`;
-    }
-
-    function renderLatestUpdate(entries) {
-      const card = document.querySelector('#latest-update-card');
-      const topLink = document.querySelector('#top-update-link');
-      if (!entries.length) {
-        card.hidden = true;
-        topLink.hidden = true;
-        return;
-      }
-
-      const latest = entries[0];
-      const targetId = `client-update-${latest.stageId}`;
-      const title = latest.stageName || 'Project update';
-      const note = latest.note || (latest.photos.length ? `${latest.photos.length} ${latest.photos.length === 1 ? 'photo' : 'photos'} added to this stage.` : 'A stage update is available.');
-      card.href = `#${targetId}`;
-      topLink.href = `#${targetId}`;
-      topLink.hidden = false;
-      document.querySelector('#latest-update-title').textContent = title;
-      document.querySelector('#latest-update-note').textContent = note;
-    }
-
-    function decisionStatusLabel(status) {
-      return { 'awaiting-response': 'Your response needed', approved: 'Choice confirmed', 'discussion-requested': 'Discussion requested' }[status] || 'Your response needed';
-    }
-
-    function renderClientDecisions(decisions) {
-      const list = document.querySelector('#client-decision-list');
-      list.replaceChildren();
-      const visibleDecisions = decisions
-        .filter((decision) => decision.projectId === clientProjectId && decision.shareWithClient)
-        .sort((first, second) => (second.updatedAt || '').localeCompare(first.updatedAt || ''));
-      if (!visibleDecisions.length) {
-        list.append(Object.assign(document.createElement('p'), { className: 'decision-empty', textContent: 'There are no decisions waiting for you right now.' }));
-        return;
-      }
-      visibleDecisions.forEach((decision) => {
-        const card = document.createElement('article');
-        card.className = 'decision-card';
-        const copy = document.createElement('div');
-        const title = document.createElement('h3');
-        title.textContent = decision.title;
-        copy.append(title);
-        const option = document.createElement('p');
-        option.textContent = `Proposed choice: ${decision.option}`;
-        copy.append(option);
-        if (decision.costImpact) {
-          const cost = document.createElement('p');
-          cost.textContent = `Cost impact: ${decision.costImpact}`;
-          copy.append(cost);
-        }
-        if (decision.scheduleImpact) {
-          const schedule = document.createElement('p');
-          schedule.textContent = `Schedule impact: ${decision.scheduleImpact}`;
-          copy.append(schedule);
-        }
-        if (decision.clientNote) {
-          const note = document.createElement('p');
-          note.textContent = decision.clientNote;
-          copy.append(note);
-        }
-        const meta = document.createElement('div');
-        meta.className = 'decision-meta';
-        const state = document.createElement('span');
-        state.className = `decision-state${decision.status === 'approved' ? ' approved' : ''}`;
-        state.textContent = decisionStatusLabel(decision.status);
-        meta.append(state);
-        card.append(copy, meta);
-        if (decision.status === 'awaiting-response') {
-          const actions = document.createElement('div');
-          actions.className = 'decision-actions';
-          [['discussion-requested', 'Ask to discuss', false], ['approved', 'Approve this choice', true]].forEach(([status, label, primary]) => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.classList.toggle('primary', primary);
-            button.textContent = label;
-            button.addEventListener('click', async () => {
-              button.disabled = true;
-              try {
-                const database = await openClientDatabase();
-                await writeClientRecord(database, 'projectDecisions', {
-                  ...decision,
-                  status,
-                  responseAt: new Date().toISOString(),
-                  updatedAt: new Date().toISOString()
-                });
-                const refreshed = await readClientStore(database, 'projectDecisions');
-                renderClientDecisions(refreshed);
-                toast.textContent = status === 'approved' ? 'Your approval has been recorded in this browser.' : 'Your request to discuss has been recorded in this browser.';
-              } catch (error) {
-                button.disabled = false;
-                toast.textContent = 'Could not save your response in this browser.';
-              }
-              toast.classList.add('visible');
-              window.clearTimeout(toastTimer);
-              toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 3200);
-            });
-            actions.append(button);
-          });
-          card.append(actions);
-        } else if (decision.responseAt) {
-          const responded = document.createElement('p');
-          responded.className = 'decision-actions';
-          responded.textContent = `Response recorded ${new Date(decision.responseAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.`;
-          card.append(responded);
-        }
-        list.append(card);
-      });
-    }
-
-    async function renderClientSiteLog() {
-      const defaultUpdates = clientProjectId === '09' ? janeStageDefaults : [];
-      renderClientStageGrid(defaultUpdates, [], clientProject.status);
-      renderClientDecisions(clientProjectId === '09' ? [janeDecisionDefault] : []);
-      try {
-        await seedJaneProjectProgress();
-        const database = await openClientDatabase();
-        const [updates, photos, statuses, issues, decisions] = await Promise.all([
-          readClientStore(database, 'stageUpdates'),
-          readClientStore(database, 'stagePhotos'),
-          readClientStore(database, 'projectStatus'),
-          readClientStore(database, 'projectIssues'),
-          readClientStore(database, 'projectDecisions')
-        ]);
-        const projectUpdates = updates.filter((record) => record.projectId === clientProjectId);
-        const projectPhotos = photos.filter((photo) => photo.projectId === clientProjectId);
-        const status = statuses.find((record) => record.projectId === clientProjectId)?.status;
-        renderClientStageGrid(projectUpdates, projectPhotos, status || clientProject.status);
-        renderClientDecisions(decisions);
-        if (status) {
-          const statusPill = document.querySelector('.status-pill');
-          const indicator = statusPill.querySelector('i');
-          statusPill.textContent = { progress: 'In progress', finishing: 'In finishing stages', completed: 'Completed' }[status] || 'In progress';
-          statusPill.prepend(indicator);
-        }
-
-        const entries = new Map();
-        projectUpdates.filter((record) => record.note || record.status !== 'not-started').forEach((record) => {
-          entries.set(record.stageId, { ...record, photos: [] });
-        });
-        projectPhotos.forEach((photo) => {
-          if (!entries.has(photo.stageId)) entries.set(photo.stageId, { stageId: photo.stageId, stageName: photo.stageName, photos: [], createdAt: photo.createdAt });
-          entries.get(photo.stageId).photos.push(photo);
-        });
-        issues
-          .filter((issue) => issue.projectId === clientProjectId && issue.shareWithClient && issue.clientUpdate?.trim())
-          .forEach((issue) => {
-            entries.set(`issue-${issue.id}`, {
-              stageId: `issue-${issue.id}`,
-              stageName: 'Project update',
-              note: issue.clientUpdate.trim(),
-              status: issue.status === 'resolved' ? 'complete' : 'in-progress',
-              photos: [],
-              createdAt: issue.updatedAt || issue.createdAt,
-              updatedAt: issue.updatedAt || issue.createdAt
-            });
-          });
-        const sortedEntries = [...entries.values()].sort((first, second) => (second.updatedAt || second.createdAt || '').localeCompare(first.updatedAt || first.createdAt || ''));
-        renderLatestUpdate(sortedEntries);
-        if (!sortedEntries.length) return;
-
-        clientSiteLog.classList.add('client-log-list');
-        clientSiteLog.replaceChildren();
-        sortedEntries.forEach((entry) => {
-          const article = document.createElement('article');
-          article.className = 'client-log-entry';
-          article.id = `client-update-${entry.stageId}`;
-          const heading = document.createElement('div');
-          heading.className = 'client-log-head';
-          const stage = document.createElement('strong');
-          stage.textContent = entry.stageName;
-          const date = document.createElement('span');
-          const timestamp = entry.updatedAt || entry.createdAt;
-          date.textContent = timestamp ? new Date(timestamp).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
-          heading.append(stage, date);
-          article.append(heading);
-          if (entry.status && entry.status !== 'not-started') {
-            const stageStatus = document.createElement('span');
-            stageStatus.className = 'client-log-status';
-            stageStatus.textContent = entry.status === 'complete' ? 'Complete' : 'In progress';
-            article.append(stageStatus);
-          }
-          if (entry.note) {
-            const note = document.createElement('p');
-            note.textContent = entry.note;
-            article.append(note);
-          }
-          if (entry.photos.length) {
-            const photoGrid = document.createElement('div');
-            photoGrid.className = 'client-log-photos';
-            entry.photos.forEach((photo) => {
-              const image = document.createElement('img');
-              image.src = URL.createObjectURL(photo.blob);
-              image.alt = photo.name;
-              photoGrid.append(image);
-            });
-            article.append(photoGrid);
-          }
-          clientSiteLog.append(article);
-        });
-      } catch (error) {
-        clientSiteLog.innerHTML = '<div class="empty-log"><strong>Daily site logs are unavailable</strong><p>Open this page in the same browser as the staff portal demo.</p></div>';
-      }
-    }
-
-    document.querySelectorAll('.message-trigger').forEach((button) => {
-      button.addEventListener('click', () => messageDialog.showModal());
-    });
-    document.querySelector('.close-button').addEventListener('click', () => messageDialog.close());
-    document.querySelector('.close-action').addEventListener('click', () => messageDialog.close());
-    messageDialog.addEventListener('click', (event) => {
-      if (event.target === messageDialog) messageDialog.close();
-    });
-    document.querySelector('#message-form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      messageDialog.close();
-      event.currentTarget.reset();
-      toast.textContent = 'This development preview does not send messages.';
-      toast.classList.add('visible');
-      window.clearTimeout(toastTimer);
-      toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 3200);
-    });
-    document.querySelectorAll('.nav a, .mobile-nav a').forEach((link) => {
-      link.addEventListener('click', () => {
-        document.querySelectorAll('.nav a, .mobile-nav a').forEach((item) => item.classList.remove('active'));
-        document.querySelectorAll(`a[href="${link.getAttribute('href')}"]`).forEach((item) => item.classList.add('active'));
-      });
-    });
-    configureClientProject();
-    renderClientSiteLog();
-  </script>
-</body>
+  <script src="client-portal.js"></script>
+  </body>
 </html>
