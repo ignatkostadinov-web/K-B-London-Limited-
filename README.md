@@ -11,7 +11,7 @@ Authorization is enforced by Supabase Row Level Security (RLS), not by JavaScrip
 
 ## Supabase setup
 
-The sign-in page is `login.html`, with separate **Staff login** and **Customer login** choices. The browser uses only the Supabase project URL and public publishable key in `supabase/config.js`; never put a `service_role` or secret key in browser code. Disable public sign-ups and create/invite users through **Authentication → Users**.
+The sign-in page is `login.html`, with separate **Staff login** and **Customer login** choices. The browser uses only the Supabase project URL and public publishable key in `supabase/config.js`; never put a `service_role` or secret key in browser code. Disable public sign-ups. Once the invitation function below is deployed, staff can create a project and invite its customer from the staff register. Until then, use the manual Authentication/profile steps below.
 
 Run [`supabase/schema.sql`](./supabase/schema.sql) for a new project. Since the initial version has already been run in the configured project, run [`supabase/portal-upgrade.sql`](./supabase/portal-upgrade.sql) in the SQL Editor to add the portal fields and tighten file access. Confirm the selected Supabase project and take an appropriate backup before running production SQL.
 
@@ -38,6 +38,17 @@ values ('00000000-0000-0000-0000-000000000000', 'client', 'PROJECT-ID');
 ```
 
 Replace the example UUIDs before running either statement. Never run both examples with the same placeholder UUID. Give each customer only their own project assignment. Keep sign-up invite-only, and set Supabase Site URL and allowed redirect URLs to the actual website origins, including `login.html` for password resets.
+
+### Staff project creation and customer invitations
+
+The **Create new project & invite customer** action in `staff.html` requires the Supabase Edge Function at [`supabase/functions/create-project-invitation/index.ts`](./supabase/functions/create-project-invitation/index.ts). Deploy it using the Supabase CLI from the repository root:
+
+```sh
+supabase functions deploy create-project-invitation
+supabase secrets set PORTAL_SITE_URL=https://your-portal-origin.example
+```
+
+Supabase provides `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to deployed functions. The function verifies the caller's access token and `staff` profile before using the service-role client to create a project, send an Auth invitation, and assign the invited account a `client` profile for that project. If invitation or profile creation fails, it attempts to remove the partially-created records and reports incomplete cleanup explicitly. Configure `PORTAL_SITE_URL` to the exact website origin and add `https://your-portal-origin.example/login.html` to Supabase Auth's allowed redirect URLs. Invitation links open the login page's password-setup flow. Do not add the service-role key to `supabase/config.js` or any browser code.
 
 ## Project data and files
 
