@@ -372,11 +372,11 @@ function stageStatusControl(stageNumber, update) {
         await uploadProjectFile(file, {
           category: 'stage-photo',
           stageNumber,
-          clientVisible: false
+          clientVisible: true
         });
       }
       await renderStageFiles(photoList, stageNumber);
-      if (files.length) notify('Photos uploaded privately. Mark each one shared only when approved.');
+      if (files.length) notify('Photos uploaded and visible to the customer.');
     } catch (error) {
       notify(`Could not upload photos: ${error.message}`);
     } finally {
