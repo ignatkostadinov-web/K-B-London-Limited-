@@ -1,7 +1,9 @@
-name: Publish paused development preview
+name: Deploy portal to GitHub Pages
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -16,7 +18,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}development/
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -24,17 +26,20 @@ jobs:
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
-      - name: Assemble privacy-safe placeholder
+      - name: Assemble portal frontend
         run: |
-          mkdir -p _site/development
-          cp development/preview-paused.html _site/development/index.html
+          mkdir -p _site/supabase
+          cp index.html login.html staff.html client-portal.js staff-portal.js projects.js _site/
+          cp supabase/config.js supabase/portal.js _site/supabase/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
-      - name: Deploy development preview
+      - name: Deploy portal
         id: deployment
         uses: actions/deploy-pages@v4

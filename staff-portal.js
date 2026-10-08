@@ -466,14 +466,23 @@ async function renderDocuments() {
   if (error) throw error;
   list.replaceChildren();
   for (const file of files) {
-    const row = element('div', 'photo-item');
-    const link = element('a', 'issue-edit-button', file.file_name);
-    const { data: signed, error: signedError } = await portalClient.storage.from('project-files').createSignedUrl(file.storage_path, 60, { download: true });
+    const row = document.createElement('details');
+    row.className = 'project-document-row';
+    const summary = element('summary', '', file.file_name);
+    const options = element('div', 'project-document-options');
+    const open = element('a', 'project-document-link', 'Open document');
+    const download = element('a', 'project-document-link', 'Download');
+    const { data: signed, error: signedError } = await portalClient.storage.from('project-files').createSignedUrl(file.storage_path, 60);
     if (signedError) throw signedError;
-    link.href = signed.signedUrl;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    const visibility = element('label', 'photo-share');
+    const { data: downloadable, error: downloadError } = await portalClient.storage.from('project-files').createSignedUrl(file.storage_path, 60, { download: true });
+    if (downloadError) throw downloadError;
+    open.href = signed.signedUrl;
+    open.target = '_blank';
+    open.rel = 'noopener';
+    download.href = downloadable.signedUrl;
+    download.target = '_blank';
+    download.rel = 'noopener';
+    const visibility = element('label', 'project-document-share');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = file.client_visible;
@@ -491,7 +500,7 @@ async function renderDocuments() {
       }
     });
     visibility.append(checkbox, document.createTextNode('Visible to customer'));
-    const remove = element('button', 'photo-remove', 'Remove');
+    const remove = element('button', 'project-document-remove', 'Remove');
     remove.type = 'button';
     remove.addEventListener('click', async () => {
       remove.disabled = true;
@@ -507,7 +516,8 @@ async function renderDocuments() {
         notify(`Could not remove document: ${error.message}`);
       }
     });
-    row.append(link, visibility, remove);
+    options.append(open, download, visibility, remove);
+    row.append(summary, options);
     list.append(row);
   }
 }

@@ -67,6 +67,6 @@ Before inviting customers:
 5. Sign in to a customer's portal in a second browser, update that project as staff, and verify shared changes appear with an in-portal alert. Confirm private stage updates, issues, and internal attachments do not appear.
 6. Confirm backups, account access, and the real website origin/redirect allow-list.
 
-## Existing development preview and repository assets
+## GitHub Pages deployment
 
-The Pages workflow publishes only a privacy notice placeholder and does not deploy the portal or assets. This code change does not run that workflow and cannot erase prior deployments. The repository's `assets/` folder still contains legacy project media; do not serve or reuse those paths for customer files. After those originals have been migrated securely and verified, remove them from the repository and consider repository visibility and Git history separately.
+The GitHub Pages workflow deploys the portal frontend to the site root whenever changes are pushed to `main`. It packages only the portal HTML and JavaScript files and the browser-side Supabase configuration/runtime; SQL files, Edge Functions, and the `assets/` directory are excluded. The `assets/` directory contains legacy project media; do not serve or reuse those files for customer data. After those originals have been migrated securely and verified, remove them from the repository and consider repository visibility and Git history separately.

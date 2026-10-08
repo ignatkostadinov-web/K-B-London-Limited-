@@ -393,13 +393,20 @@ async function renderFiles(files, client) {
   document.querySelector('#document-count').textContent = `${documents.length} ${documents.length === 1 ? 'file' : 'files'}`;
   list.replaceChildren();
   documents.forEach((file) => {
-    const link = document.createElement('a');
-    link.className = 'design-document-link';
-    link.textContent = `Download ${file.file_name}`;
-    link.href = '#';
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.addEventListener('click', async (event) => {
+    const documentMenu = document.createElement('details');
+    documentMenu.className = 'design-document';
+    const summary = document.createElement('summary');
+    summary.textContent = file.file_name;
+    const options = document.createElement('div');
+    options.className = 'design-document-preview';
+    const actions = document.createElement('div');
+    actions.className = 'design-document-actions';
+
+    const openLink = document.createElement('a');
+    openLink.className = 'design-document-link primary';
+    openLink.textContent = 'Open document';
+    openLink.href = '#';
+    openLink.addEventListener('click', async (event) => {
       event.preventDefault();
       const popup = window.open('about:blank', '_blank');
       if (!popup) {
@@ -408,13 +415,36 @@ async function renderFiles(files, client) {
       }
       popup.opener = null;
       try {
-        popup.location.href = await signedUrl(client, file.storage_path, true);
+        popup.location.href = await signedUrl(client, file.storage_path);
       } catch (error) {
         popup.close();
         showToast(`Could not open this file: ${error.message}`);
       }
     });
-    list.append(link);
+
+    const downloadLink = document.createElement('a');
+    downloadLink.className = 'design-document-link';
+    downloadLink.textContent = 'Download';
+    downloadLink.href = '#';
+    downloadLink.addEventListener('click', async (event) => {
+      event.preventDefault();
+      try {
+        const url = await signedUrl(client, file.storage_path, true);
+        const download = document.createElement('a');
+        download.href = url;
+        download.download = file.file_name;
+        document.body.append(download);
+        download.click();
+        download.remove();
+      } catch (error) {
+        showToast(`Could not download this file: ${error.message}`);
+      }
+    });
+
+    actions.append(openLink, downloadLink);
+    options.append(actions);
+    documentMenu.append(summary, options);
+    list.append(documentMenu);
   });
 }
 
