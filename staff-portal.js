@@ -433,27 +433,6 @@ async function renderStageFiles(container, stageNumber) {
     const { data, error: urlError } = await portalClient.storage.from('project-files').createSignedUrl(file.storage_path, 60);
     if (urlError) throw urlError;
     image.src = data.signedUrl;
-    const shareLabel = element('label', 'photo-share');
-    const share = document.createElement('input');
-    share.type = 'checkbox';
-    share.checked = file.client_visible;
-    share.setAttribute('aria-label', `Share ${file.file_name} with customer`);
-    share.addEventListener('change', async () => {
-      share.disabled = true;
-      try {
-        const { error: updateError } = await portalClient.from('project_files')
-          .update({ client_visible: share.checked })
-          .eq('id', file.id);
-        if (updateError) throw updateError;
-        notify(share.checked ? 'Photo shared with the customer.' : 'Photo is now staff-only.');
-      } catch (error) {
-        share.checked = !share.checked;
-        notify(`Could not change photo visibility: ${error.message}`);
-      } finally {
-        share.disabled = false;
-      }
-    });
-    shareLabel.append(share, document.createTextNode('Visible to customer'));
     const remove = element('button', 'photo-remove', '×');
     remove.type = 'button';
     remove.setAttribute('aria-label', `Remove ${file.file_name}`);
@@ -471,7 +450,7 @@ async function renderStageFiles(container, stageNumber) {
         notify(`Could not remove photo: ${error.message}`);
       }
     });
-    item.append(image, shareLabel, remove);
+    item.append(image, remove);
     container.append(item);
   }
 }
