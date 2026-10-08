@@ -472,6 +472,7 @@ async function renderDocuments() {
     const options = element('div', 'project-document-options');
     const open = element('a', 'project-document-link', 'Open document');
     const download = element('a', 'project-document-link', 'Download');
+    const removeErrorMessage = element('span', 'project-document-error');
     const { data: signed, error: signedError } = await portalClient.storage.from('project-files').createSignedUrl(file.storage_path, 60);
     if (signedError) throw signedError;
     const { data: downloadable, error: downloadError } = await portalClient.storage.from('project-files').createSignedUrl(file.storage_path, 60, { download: true });
@@ -507,16 +508,23 @@ async function renderDocuments() {
       try {
         const { error: removeError } = await portalClient.storage.from('project-files').remove([file.storage_path]);
         if (removeError) throw removeError;
-        const { error: metadataError } = await portalClient.from('project_files').delete().eq('id', file.id);
+        const { data: deletedFiles, error: metadataError } = await portalClient.from('project_files')
+          .delete()
+          .eq('id', file.id)
+          .select('id');
         if (metadataError) throw metadataError;
+        if (!deletedFiles?.length) {
+          throw new Error('The file was removed from storage, but its project record could not be deleted. Run the latest Supabase portal upgrade SQL, then try Remove again.');
+        }
         await renderDocuments();
         notify('Document removed.');
       } catch (error) {
         remove.disabled = false;
+        removeErrorMessage.textContent = `Could not remove document: ${error.message}`;
         notify(`Could not remove document: ${error.message}`);
       }
     });
-    options.append(open, download, visibility, remove);
+    options.append(open, download, visibility, remove, removeErrorMessage);
     row.append(summary, options);
     list.append(row);
   }

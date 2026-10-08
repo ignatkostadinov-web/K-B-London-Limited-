@@ -169,10 +169,13 @@
     .project-document-row[open] summary::after { content: '−'; }
     .project-document-row summary:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
     .project-document-options { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 8px 10px; border-top: 1px solid var(--line); background: #f8f9f7; }
-    .project-document-link, .project-document-remove { padding: 0; border: 0; background: none; color: #805d00; font: 700 9px var(--font-body); text-decoration: underline; cursor: pointer; }
+    .project-document-link { padding: 0; border: 0; background: none; color: #805d00; font: 700 9px var(--font-body); text-decoration: underline; cursor: pointer; }
     .project-document-share { display: inline-flex; align-items: center; gap: 4px; color: var(--green); font-size: 9px; font-weight: 700; cursor: pointer; }
     .project-document-share input { margin: 0; accent-color: var(--green); }
-    .project-document-remove { margin-left: auto; color: #8a3636; }
+    .project-document-remove { min-height: 27px; margin-left: auto; padding: 0 9px; border: 1px solid #e4caca; border-radius: 4px; background: #fff8f7; color: #8a3636; font: 700 9px var(--font-body); cursor: pointer; }
+    .project-document-remove:hover { border-color: #c98787; background: #fff0ee; }
+    .project-document-error { flex-basis: 100%; color: #8a3636; font-size: 9px; line-height: 1.4; }
+    .project-document-error:empty { display: none; }
     .issue-workspace { display: grid; gap: 12px; padding: 16px 22px 22px; border-top: 1px solid var(--line); background: #f7f8f7; }
     .issue-workspace-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .issue-workspace-head h3 { margin: 0 0 3px; font: 600 14px var(--font-display); }

@@ -19,8 +19,27 @@ alter table public.project_files add constraint project_files_stage_number_check
 alter table public.internal_issues add column if not exists attachment_file_id uuid references public.project_files (id) on delete set null;
 alter table public.client_updates add column if not exists source_issue_id uuid unique references public.internal_issues (id) on delete cascade;
 
+drop policy if exists "staff manage project files" on public.project_files;
+create policy "staff manage project files"
+  on public.project_files for all to authenticated
+  using (public.current_portal_role() = 'staff')
+  with check (public.current_portal_role() = 'staff');
+revoke all on public.project_files from public, anon;
+grant select, insert, update, delete on public.project_files to authenticated;
+
 drop policy if exists "clients read own project files" on storage.objects;
 drop policy if exists "clients read shared project files" on storage.objects;
+drop policy if exists "staff access project files" on storage.objects;
+create policy "staff access project files"
+  on storage.objects for all to authenticated
+  using (
+    bucket_id = 'project-files'
+    and public.current_portal_role() = 'staff'
+  )
+  with check (
+    bucket_id = 'project-files'
+    and public.current_portal_role() = 'staff'
+  );
 create policy "clients read shared project files"
   on storage.objects for select to authenticated
   using (
