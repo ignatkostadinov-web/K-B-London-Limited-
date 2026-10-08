@@ -15,6 +15,7 @@ begin
     'stage_updates',
     'project_decisions',
     'client_updates',
+    'project_messages',
     'project_files'
   ] loop
     if not exists (

@@ -9,6 +9,9 @@ const issueList = document.querySelector('#issue-list');
 const issueForm = document.querySelector('#issue-form');
 const decisionList = document.querySelector('#decision-list-staff');
 const decisionForm = document.querySelector('#decision-form');
+const projectMessageList = document.querySelector('#project-message-list');
+const projectMessageStatus = document.querySelector('#project-message-status');
+const staffMessageForm = document.querySelector('#staff-message-form');
 const projectStatusSelect = document.querySelector('#project-status-select');
 const toast = document.querySelector('#dialog-toast');
 const filters = [...document.querySelectorAll('.filter')];
@@ -25,6 +28,7 @@ let activeProject = null;
 let editingIssueId = null;
 let editingDecisionId = null;
 let toastTimer;
+let staffMessageChannel;
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -285,6 +289,54 @@ async function queryProject(table, projectId, columns = '*') {
   return data;
 }
 
+async function loadProjectMessages(projectId) {
+  const { data, error } = await portalClient.from('project_messages')
+    .select('id,sender_role,body,created_at')
+    .eq('project_id', projectId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  renderProjectMessages(data.reverse());
+}
+
+function renderProjectMessages(messages) {
+  projectMessageList.replaceChildren();
+  if (!messages.length) {
+    projectMessageList.append(element('p', 'project-message-empty', 'No messages yet. Customer messages from the client portal will appear here.'));
+  } else {
+    messages.forEach((message) => {
+      const entry = element('article', `project-message${message.sender_role === 'client' ? ' customer-message' : ''}`);
+      const header = element('div', 'project-message-head');
+      const sender = element('strong', '', message.sender_role === 'client' ? 'Customer' : 'K&B project team');
+      const date = element('time', '', new Date(message.created_at).toLocaleString('en-GB'));
+      date.dateTime = message.created_at;
+      const body = element('p', '', message.body);
+      header.append(sender, date);
+      entry.append(header, body);
+      projectMessageList.append(entry);
+    });
+  }
+  projectMessageStatus.textContent = 'This conversation is saved to the project and visible in both portals.';
+  projectMessageList.scrollTop = projectMessageList.scrollHeight;
+}
+
+function subscribeToStaffMessages(projectId) {
+  if (staffMessageChannel) portalClient.removeChannel(staffMessageChannel);
+  staffMessageChannel = portalClient
+    .channel(`staff-project-messages-${projectId}`)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'project_messages', filter: `project_id=eq.${projectId}` }, () => {
+      loadProjectMessages(projectId).catch((error) => {
+        console.error('Could not refresh project messages.', error);
+        projectMessageStatus.textContent = `Could not refresh messages: ${error.message}`;
+      });
+    })
+    .subscribe((status, error) => {
+      if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+        console.error(`Staff project message subscription ${status.toLocaleLowerCase()}.`, error);
+        notify('Live message updates are unavailable. Refresh the project to see new messages.');
+      }
+    });
+}
+
 function stageStatusControl(stageNumber, update) {
   const card = element('article', 'stage-card');
   const header = element('div', 'stage-card-head');
@@ -539,12 +591,19 @@ async function openProject(project) {
   stageList.replaceChildren();
   issueList.replaceChildren();
   decisionList.replaceChildren();
+  projectMessageList.replaceChildren();
+  projectMessageStatus.textContent = 'Loading project messages…';
   projectDialog.showModal();
-  const [updates, issues, decisions] = await Promise.all([
+  const [updates, issues, decisions, messages] = await Promise.all([
     queryProject('stage_updates', project.id),
     queryProject('internal_issues', project.id),
-    queryProject('project_decisions', project.id)
+    queryProject('project_decisions', project.id),
+    portalClient.from('project_messages')
+      .select('id,sender_role,body,created_at')
+      .eq('project_id', project.id)
+      .order('created_at', { ascending: false })
   ]);
+  if (messages.error) throw messages.error;
   window.currentProjectIssues = issues;
   window.currentProjectDecisions = decisions;
   window.portalStages[project.kind].forEach((_, index) => {
@@ -553,6 +612,8 @@ async function openProject(project) {
   await renderIssues(issues);
   await renderDecisions(decisions);
   await renderDocuments();
+  renderProjectMessages(messages.data.reverse());
+  subscribeToStaffMessages(project.id);
 }
 
 async function renderIssues(issues) {
@@ -821,6 +882,10 @@ createProjectForm.addEventListener('submit', (event) => {
   });
 });
 document.querySelector('.dialog-close').addEventListener('click', () => projectDialog.close());
+projectDialog.addEventListener('close', () => {
+  if (staffMessageChannel) portalClient.removeChannel(staffMessageChannel);
+  staffMessageChannel = null;
+});
 projectDialog.addEventListener('click', (event) => {
   if (event.target === projectDialog) projectDialog.close();
 });
@@ -874,6 +939,48 @@ document.querySelector('#project-file-upload').addEventListener('change', async 
 });
 issueForm.addEventListener('submit', (event) => {
   saveIssue(event).catch((error) => notify(`Could not save the issue: ${error.message}`));
+});
+staffMessageForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!activeProject) {
+    notify('Open a project before sending a reply.');
+    return;
+  }
+  const message = document.querySelector('#staff-message-text').value.trim();
+  if (!message) {
+    notify('Write a reply before sending.');
+    return;
+  }
+  const projectId = activeProject.id;
+  const button = document.querySelector('#send-staff-message');
+  button.disabled = true;
+  let saved = false;
+  try {
+    const { error } = await portalClient.from('project_messages').insert({
+      project_id: projectId,
+      sender_id: window.staffContext.user.id,
+      sender_role: 'staff',
+      body: message
+    });
+    if (error) throw error;
+    saved = true;
+    staffMessageForm.reset();
+    notify('Reply sent and recorded in the project conversation.');
+    try {
+      await loadProjectMessages(projectId);
+    } catch (error) {
+      projectMessageStatus.textContent = `Reply was saved, but messages could not be refreshed: ${error.message}`;
+      console.error('Could not refresh messages after sending a reply.', error);
+      notify(`Reply was saved, but the conversation could not refresh: ${error.message}`);
+    }
+  } catch (error) {
+    console.error('Could not send project reply.', error);
+    notify(saved
+      ? `Reply was saved, but the conversation could not refresh: ${error.message}`
+      : `Could not send the reply: ${error.message}`);
+  } finally {
+    button.disabled = false;
+  }
 });
 document.querySelector('#save-project-status').addEventListener('click', async () => {
   if (!activeProject) return;

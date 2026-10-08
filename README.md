@@ -13,7 +13,7 @@ Authorization is enforced by Supabase Row Level Security (RLS), not by JavaScrip
 
 The sign-in page is `login.html`, with separate **Staff login** and **Customer login** choices. The browser uses only the Supabase project URL and public publishable key in `supabase/config.js`; never put a `service_role` or secret key in browser code. Disable public sign-ups. Once the invitation function below is deployed, staff can create a project and invite its customer from the staff register. Until then, use the manual Authentication/profile steps below.
 
-Run [`supabase/schema.sql`](./supabase/schema.sql) for a new project. Since the initial version has already been run in the configured project, run [`supabase/portal-upgrade.sql`](./supabase/portal-upgrade.sql) in the SQL Editor to add the portal fields, configure staff file management policies, and tighten customer file access. Re-run it if file management policies need to be restored. Run [`supabase/realtime-upgrade.sql`](./supabase/realtime-upgrade.sql) once to enable project changes to reach signed-in customers in real time. Confirm the selected Supabase project and take an appropriate backup before running production SQL.
+Run [`supabase/schema.sql`](./supabase/schema.sql) for a new project. Since the initial version has already been run in the configured project, run [`supabase/portal-upgrade.sql`](./supabase/portal-upgrade.sql) in the SQL Editor to add the portal fields, configure staff file management policies, and tighten customer file access. Run [`supabase/messaging-upgrade.sql`](./supabase/messaging-upgrade.sql) to create the project message history and its access policies. Run [`supabase/realtime-upgrade.sql`](./supabase/realtime-upgrade.sql) to enable project and message changes to reach signed-in users in real time; it is safe to re-run when the Realtime table list changes. Confirm the selected Supabase project and take an appropriate backup before running production SQL.
 
 Create a project record before assigning customer accounts. For example:
 
@@ -52,20 +52,21 @@ Supabase provides `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to deployed fun
 
 ## Project data and files
 
-Stage updates, issues, decisions, customer-safe updates, profiles, projects, and file metadata are stored in Supabase. Staff stage updates, photos, and project documents default to private. Staff must explicitly mark a stage update or file visible to the customer. Internal issues, correspondence, and attachments are staff-only; only the separate customer-safe update text is published. The client portal subscribes to Realtime changes for the customer's assigned project, reloads its RLS-filtered data, and shows an in-portal alert for visible project, stage, decision, update, and shared-file changes. Customers need to be signed in with the portal open to receive live alerts; email and offline push notifications are not configured.
+Stage updates, issues, decisions, customer-safe updates, project messages, profiles, projects, and file metadata are stored in Supabase. Messages sent by a customer appear in that project's **Messages with the customer** section in the staff project workspace; staff replies appear in the same conversation in both portals. Message history is stored in `public.project_messages`, restricted by row-level security to staff and the customer assigned to that project, and is read-only after sending. The client portal subscribes to Realtime changes for the customer's assigned project, reloads its RLS-filtered data, and shows an in-portal alert for visible project, stage, decision, update, and shared-file changes. Messages refresh live in both portals. Customers need to be signed in with the portal open to receive live updates; email and offline push notifications are not configured.
 
 The `project-files` Storage bucket is private. The app uses short-lived signed URLs for permitted files, and storage access is checked against both the project assignment and a matching `project_files` record. Never put customer photos/documents in a public bucket or website `assets/` folder.
 
-The staff portal requires a staff profile. The customer portal requires a client profile with a project assignment. If the database contains no project records or profiles, the pages will remain empty until those records are added. Messaging is not connected yet.
+The staff portal requires a staff profile. The customer portal requires a client profile with a project assignment. If the database contains no project records or profiles, the pages will remain empty until those records are added.
 
 Before inviting customers:
 
-1. Run the upgrade SQL and confirm `project-files` is private.
+1. Run the portal and messaging upgrade SQL, then the Realtime upgrade SQL, and confirm `project-files` is private.
 2. Create project rows and user profiles; assign each customer only their own project.
 3. Sign in as staff and upload photos/documents through the staff portal.
 4. Test signed-out access, staff access, a customer's own project, another customer's project, shared files, and internal files, including opening a copied file URL after sign-out.
 5. Sign in to a customer's portal in a second browser, update that project as staff, and verify shared changes appear with an in-portal alert. Confirm private stage updates, issues, and internal attachments do not appear.
-6. Confirm backups, account access, and the real website origin/redirect allow-list.
+6. Send a message from the client portal and verify it is recorded in `project_messages` and appears in the staff project's message workspace; reply as staff and verify it appears in the client portal conversation. Confirm another customer's account cannot access either conversation.
+7. Confirm backups, account access, and the real website origin/redirect allow-list.
 
 ## GitHub Pages deployment
 
